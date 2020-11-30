@@ -1,0 +1,13 @@
+.item{
+  p{
+    text-align: center;
+  }
+}
+.photo{
+    img{
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+}

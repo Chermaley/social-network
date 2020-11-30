@@ -1,30 +1,43 @@
 import React from 'react';
 import Post from './post';
 import classes from './myPosts.module.scss';
+import PropTypes from "prop-types";
 
-const postData = [
-    {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'wow', likesCount: 2, id: 1},
-    {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'lol', likesCount: 5, id: 2},
-    {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'wow', likesCount: 4, id: 1},
-    {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'wow', likesCount: 20, id: 1},
-];
 
-const MyPosts = () => {
+const MyPosts = ({postData, newPostText, updateNewPost, addNewPost}) => {
+
+
     const posts = postData.map(({img, text, id, likesCount}) => {
         return <Post key={id} img={img} text={text} likesCount={likesCount}/>;
     });
+
+    const addPost = () => {
+        addNewPost();
+    };
+
+    const onPostChange = (e) => {
+        const text = e.target.value;
+        updateNewPost(text);
+    };
+    console.log(newPostText);
     return (
         <div className={classes.postBlock}>
             <h3>My post</h3>
             <div>New post</div>
             <div>
-                <textarea/>
-                <button>Add post</button>
+                <textarea onChange={onPostChange} value={newPostText}/>
+                <button onClick={addPost}>Add post</button>
             </div>
             <div>
                 {posts}
             </div>
         </div>
     );
+};
+MyPosts.propTypes = {
+    postData: PropTypes.array,
+    updateNewPost: PropTypes.func,
+    addNewPost: PropTypes.func,
+    newPostText: PropTypes.any
 };
 export default MyPosts;

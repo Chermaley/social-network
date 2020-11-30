@@ -1,0 +1,38 @@
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+
+const initialState = {
+    posts: [
+        {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'wow', likesCount: 2, id: 1},
+        {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'lol', likesCount: 5, id: 2},
+        {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'wow', likesCount: 4, id: 1},
+        {img: 'https://i.ytimg.com/vi/CtI_D76BcV0/maxresdefault.jpg', text: 'wow', likesCount: 20, id: 1}
+    ],
+    newPostText:''
+};
+
+const profileReducer = (state = initialState, action) => {
+    let newPost;
+    switch (action.type) {
+        case ADD_POST:
+            newPost = {
+                id: 5,
+                text: state.newPostText,
+                likesCount: 0
+            };
+            state.posts.push(newPost);
+            state.newPostText = '';
+            return state;
+        case UPDATE_NEW_POST_TEXT:
+            state.newPostText = action.text;
+            return state;
+        default:
+            return state;
+    }
+};
+
+export const addPostActionCreator = () => ({type: ADD_POST});
+export const updateNewPostTextCreator = (text) =>
+    ({type: UPDATE_NEW_POST_TEXT, text});
+
+export default profileReducer;
