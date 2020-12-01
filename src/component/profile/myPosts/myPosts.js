@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 
 const MyPosts = ({postData, newPostText, updateNewPost, addNewPost}) => {
 
-
     const posts = postData.map(({img, text, id, likesCount}) => {
         return <Post key={id} img={img} text={text} likesCount={likesCount}/>;
     });

@@ -3,19 +3,18 @@ import classes from './dialogs.module.scss';
 import Dialog from './dialogItem/dialog';
 import Message from './message';
 import PropTypes from 'prop-types';
-import {addMessageActionCreator, updateNewMessage} from "../../redux/dialogsReducer";
 
-const Dialogs = ({state, dispatch}) => {
+const Dialogs = ({dialogsData, messagesData, newMessageText, onMessageChange, addMessage}) => {
 
-    const {dialogs: dialogsData, messages: messagesData, newMessageText} = state;
 
-    const onMessageChange = (e) => {
+
+    const onChange = (e) => {
         const text = e.target.value;
-        dispatch(updateNewMessage(text));
+        onMessageChange(text);
     };
 
-    const addMessage = () => {
-        dispatch(addMessageActionCreator());
+    const sendClick = () => {
+        addMessage();
     };
 
     const dialogs = dialogsData.map(({id, person}) => {
@@ -34,9 +33,9 @@ const Dialogs = ({state, dispatch}) => {
             </div>
             <div className={classes.messages}>
                 <div>{messages}</div>
-                <div><textarea onChange={onMessageChange}  value={newMessageText}/></div>
+                <div><textarea onChange={onChange} value={newMessageText}/></div>
                 <div>
-                    <button onClick={addMessage}>Send</button>
+                    <button onClick={sendClick}>Send</button>
                 </div>
             </div>
         </div>
@@ -44,8 +43,11 @@ const Dialogs = ({state, dispatch}) => {
 };
 
 Dialogs.propTypes = {
-    state: PropTypes.object,
-    dispatch: PropTypes.func
-}
+    dialogsData: PropTypes.array,
+    messagesData: PropTypes.array,
+    newMessageText: PropTypes.any,
+    onMessageChange: PropTypes.func,
+    addMessage: PropTypes.func
+};
 
 export default Dialogs;

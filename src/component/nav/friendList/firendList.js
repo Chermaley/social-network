@@ -3,10 +3,9 @@ import classes from './friendList.module.scss';
 import FriendListItem from "./friendListItem";
 import PropTypes from 'prop-types';
 
-const FriendList = ({state}) => {
-    const {friends: friendsData} = state;
+const FriendList = ({friends : friendsData}) => {
     const friends = friendsData.map(({name, id, photo}) => {
-        return <FriendListItem name={name} key={id} photo={photo}/>
+        return <FriendListItem name={name} key={id} photo={photo}/>;
     });
     return (
         <>
@@ -19,8 +18,8 @@ const FriendList = ({state}) => {
 };
 
 FriendList.propTypes = {
-    state: PropTypes.object
-}
+    friends: PropTypes.any
+};
 
 export default FriendList;
 
