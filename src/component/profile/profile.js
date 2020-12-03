@@ -6,16 +6,15 @@ import PropTypes from 'prop-types';
 import MyPostsContainer from "./myPosts/myPostsContainer";
 
 
-const Profile = () => {
-
+const Profile = ({profile}) => {
     return (
         <div className={classes.profile}>
-            <ProfileInfo/>
+            <ProfileInfo profile={profile}/>
             <MyPostsContainer/>
         </div>
     );
 };
 Profile.propTypes = {
-    store: PropTypes.object
+    profile: PropTypes.object
 };
 export default Profile;

@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
-import Profile from '../profile';
 import Header from '../header';
 import NavBar from '../nav/nav';
 import {Route} from "react-router-dom";
@@ -9,7 +7,8 @@ import Music from "../music";
 import News from "../news";
 import Settings from "../settings";
 import DialogsContainer from "../dialogs/dialogsWrapper";
-import Users from "../users";
+import ProfileAPI from "../profile/profileAPI";
+import UsersAPI from "../users/usersAPI";
 
 const App = () =>{
     return (
@@ -17,11 +16,11 @@ const App = () =>{
                 <Header/>
                 <NavBar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' render={() => <Profile/>}/>
+                    <Route path='/profile/:id?' render={() => <ProfileAPI/>}/>
                     <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                     <Route path='/music' render={Music}/>
                     <Route path='/news' component={News}/>
-                    <Route path='/users' render={() => <Users/>}/>
+                    <Route path='/users' render={() => <UsersAPI/>}/>
                     <Route path='/settings' component={Settings}/>
                 </div>
             </div>

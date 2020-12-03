@@ -1,5 +1,6 @@
 const CHANGE_TERM = 'CHANGE_TERM';
 const TOGGLE_FOLLOW = 'TOGGLE_FOLLOW';
+const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const SET_USERS = 'SET_USERS';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
@@ -9,6 +10,7 @@ const initialState = {
     pageSize: 100,
     totalUsersCount: 0,
     currentPage: 1,
+    isLoading: false,
     term: ''
 };
 const usersReducer = (state = initialState, action) => {
@@ -39,6 +41,11 @@ const usersReducer = (state = initialState, action) => {
                 ...state,
                 currentPage: action.pageNumber
             };
+        case TOGGLE_LOADING:
+            return {
+                ...state,
+                isLoading: !state.isLoading
+            };
         case CHANGE_TERM:
             return {
                 ...state,
@@ -49,6 +56,7 @@ const usersReducer = (state = initialState, action) => {
     }
 };
 export const follow = (id) => ({type: TOGGLE_FOLLOW, id});
+export const toggleLoadingStatus = () => ({type: TOGGLE_LOADING});
 export const changeTerm = (term) => ({type: CHANGE_TERM, term});
 export const setTotalUsersCount = (usersCount) => ({type: SET_TOTAL_USERS_COUNT, usersCount});
 export const setCurrentPage = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNumber});

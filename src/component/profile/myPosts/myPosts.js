@@ -18,7 +18,7 @@ const MyPosts = ({postData, newPostText, updateNewPost, addNewPost}) => {
         const text = e.target.value;
         updateNewPost(text);
     };
-    console.log(newPostText);
+
     return (
         <div className={classes.postBlock}>
             <h3>My post</h3>
