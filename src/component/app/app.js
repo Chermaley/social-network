@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../header';
 import NavBar from '../nav/nav';
 import {Route} from "react-router-dom";
 import './app.scss';
@@ -9,11 +8,12 @@ import Settings from "../settings";
 import DialogsContainer from "../dialogs/dialogsWrapper";
 import ProfileAPI from "../profile/profileAPI";
 import UsersAPI from "../users/usersAPI";
+import HeaderAPI from "../header/headerAPI";
 
 const App = () =>{
     return (
             <div className='app'>
-                <Header/>
+                <HeaderAPI/>
                 <NavBar/>
                 <div className='app-wrapper-content'>
                     <Route path='/profile/:id?' render={() => <ProfileAPI/>}/>

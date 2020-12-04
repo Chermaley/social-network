@@ -1,9 +1,14 @@
 import React from 'react';
 import classes from './header.module.scss';
-const Header = () => {
+import {NavLink} from "react-router-dom";
+// eslint-disable-next-line react/prop-types
+const Header = ({isAuth, login}) => {
     return (
         <header className={classes.header}>
             <img alt='logo' src='https://i.exclipart.com/images/mushroom-clipart-realistic-2.png'/>
+            <div className={classes.loginBlock}>
+                {isAuth ?  <div>{login}</div> : <NavLink to={'/login'}>Login</NavLink>}
+            </div>
         </header>
     );
 };

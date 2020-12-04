@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import classes from './user.module.scss';
 import {NavLink} from "react-router-dom";
 
-const User = ({fullName, onFollowClick, followStatus, location, photoUrl, status, id}) => {
+const User = ({fullName, onFollowClick, followStatus, location, photoUrl, status, id: userId, followingInProgress}) => {
     const followUnfollow = followStatus ? 'unfollow' : 'follow';
     return (
         <div>
             <span>
                 <div>
-                    <NavLink to={`/profile/${id}`}>
+                    <NavLink to={`/profile/${userId}`}>
                         <img src={photoUrl} alt='user photo' className={classes.photo}/>
                     </NavLink>
                 </div>
                 <div>
-                    <button onClick={onFollowClick}>{followUnfollow}</button>
+                    <button disabled={followingInProgress.some(id => id === userId)} onClick={onFollowClick}>{followUnfollow}</button>
                 </div>
             </span>
             <span>
@@ -36,7 +36,8 @@ User.propTypes = {
     followStatus: PropTypes.bool,
     photoUrl: PropTypes.string,
     location: PropTypes.any,
-    id: PropTypes.any
+    id: PropTypes.any,
+    followingInProgress: PropTypes.array
 
 };
 export default User;

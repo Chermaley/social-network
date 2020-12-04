@@ -6,12 +6,12 @@ import {
     follow,
     setCurrentPage,
     setTotalUsersCount,
-    setUsers,
+    setUsers, toggleFollowingProgress,
     toggleLoadingStatus
 } from '../../redux/usersReducer';
-import axios from 'axios';
 import Users from './Users';
 import Spinner from '../common/spinner';
+import {usersApi} from "../../api/api";
 
 class UsersAPI extends Component {
 
@@ -27,16 +27,18 @@ class UsersAPI extends Component {
         setTotalUsersCount: PropTypes.func,
         setCurrentPage: PropTypes.func,
         isLoading: PropTypes.bool,
-        toggleLoadingStatus: PropTypes.func
+        toggleLoadingStatus: PropTypes.func,
+        followingInProgress: PropTypes.array,
+        toggleFollowingProgress: PropTypes.func
     };
 
     componentDidMount() {
         const {setUsers, setTotalUsersCount, currentPage, pageSize, toggleLoadingStatus} = this.props;
         toggleLoadingStatus();
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-            .then(res => {
-                setTotalUsersCount(res.data.totalCount);
-                setUsers(res.data.items);
+        usersApi.getUsers(currentPage, pageSize)
+            .then(data => {
+                setTotalUsersCount(data.totalCount);
+                setUsers(data.items);
                 toggleLoadingStatus();
             });
     }
@@ -47,18 +49,18 @@ class UsersAPI extends Component {
     };
 
     onPageChanged = (i) => {
-        const {setCurrentPage, setUsers, toggleLoadingStatus} = this.props;
+        const {setCurrentPage, setUsers, toggleLoadingStatus, pageSize} = this.props;
         setCurrentPage(i);
         toggleLoadingStatus();
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${i}&count=${this.props.pageSize}`)
-            .then(res => {
-                setUsers(res.data.items);
+        usersApi.getUsers(i, pageSize)
+            .then(data => {
+                setUsers(data.items);
                 toggleLoadingStatus();
             });
     };
 
     render() {
-        const {usersData, follow, term, totalUsersCount, pageSize, currentPage, isLoading} = this.props;
+        const {usersData, follow, term, totalUsersCount, pageSize, currentPage, isLoading, followingInProgress, toggleFollowingProgress} = this.props;
         return (
             <>
                 {isLoading
@@ -72,6 +74,8 @@ class UsersAPI extends Component {
                         currentPage={currentPage}
                         onChangeTerm={this.onChangeTerm}
                         onPageChanged={this.onPageChanged}
+                        followingInProgress={followingInProgress}
+                        toggleFollowingProgress={toggleFollowingProgress}
                     />}
 
             </>
@@ -87,7 +91,8 @@ const mapStateToProps = (state) => {
         totalUsersCount: state.usersPage.totalUsersCount,
         pageSize: state.usersPage.pageSize,
         currentPage: state.usersPage.currentPage,
-        isLoading: state.usersPage.isLoading
+        isLoading: state.usersPage.isLoading,
+        followingInProgress: state.usersPage.followingInProgress
     };
 };
 
@@ -98,5 +103,6 @@ export default connect(mapStateToProps, {
     setUsers,
     setTotalUsersCount,
     setCurrentPage,
-    toggleLoadingStatus
+    toggleLoadingStatus,
+    toggleFollowingProgress
 })(UsersAPI);
