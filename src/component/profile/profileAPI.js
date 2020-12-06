@@ -1,42 +1,50 @@
 import Profile from "./profile";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import axios from "axios";
 import PropTypes from 'prop-types';
-import {setProfile} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
+// import {withAuthRedirect} from "../redirectHOC/redirectHOC";
+import {compose} from "redux";
+import {getProfile, getStatus, updateStatus} from "../../redux/profileReducer";
 
 class ProfileAPI extends Component {
 
     static propTypes = {
         profile: PropTypes.any,
-        setProfile: PropTypes.func,
-        match: PropTypes.object
+        getProfile: PropTypes.func,
+        getStatus: PropTypes.func,
+        match: PropTypes.object,
+        status: PropTypes.any,
+        updateStatus: PropTypes.func
     };
 
     componentDidMount() {
-        const {setProfile, match} = this.props;
+        const {getProfile, match, getStatus} = this.props;
         let id = match.params.id;
         if (!id) {
-            id = 2;
+            id = 13037;
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${id}`)
-            .then(res => {
-                setProfile(res.data);
-            });
+        getProfile(id);
+        getStatus(id);
     }
 
     render() {
+        const {profile, status, updateStatus} = this.props;
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props} profile={profile} status={status} updateStatus={updateStatus}/>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        status: state.profilePage.status
     };
 };
 
-export default withRouter(connect(mapStateToProps, {setProfile})(ProfileAPI));
+export default compose(
+    // withAuthRedirect
+     withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus}))(ProfileAPI);
+
+// export default withAuthRedirect(withRouter(connect(mapStateToProps, {getProfile})(Profile)));

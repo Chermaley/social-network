@@ -2,31 +2,26 @@ import React from 'react';
 import Post from './post';
 import classes from './myPosts.module.scss';
 import PropTypes from "prop-types";
+import {addNewPost} from "../../../redux/profileReducer";
+import {connect} from "react-redux";
+import MyPostForm from "./myPostForm";
 
 
-const MyPosts = ({postData, newPostText, updateNewPost, addNewPost}) => {
+const MyPosts = ({postData, addNewPost}) => {
 
     const posts = postData.map(({img, text, id, likesCount}) => {
         return <Post key={id} img={img} text={text} likesCount={likesCount}/>;
     });
 
-    const addPost = () => {
-        addNewPost();
+    const addPost = (value) => {
+        const post = value.postText;
+        addNewPost(post);
     };
-
-    const onPostChange = (e) => {
-        const text = e.target.value;
-        updateNewPost(text);
-    };
-
     return (
         <div className={classes.postBlock}>
             <h3>My post</h3>
             <div>New post</div>
-            <div>
-                <textarea onChange={onPostChange} value={newPostText}/>
-                <button onClick={addPost}>Add post</button>
-            </div>
+            <MyPostForm onSubmit={addPost}/>
             <div>
                 {posts}
             </div>
@@ -35,8 +30,15 @@ const MyPosts = ({postData, newPostText, updateNewPost, addNewPost}) => {
 };
 MyPosts.propTypes = {
     postData: PropTypes.array,
-    updateNewPost: PropTypes.func,
     addNewPost: PropTypes.func,
-    newPostText: PropTypes.any
 };
-export default MyPosts;
+
+const mapStateToProps = (state) => {
+    return {
+        postData: state.profilePage.posts,
+        newPostText: state.profilePage.newPostText
+    };
+};
+
+
+export default connect(mapStateToProps, {addNewPost})(MyPosts);

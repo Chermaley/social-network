@@ -3,15 +3,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
     changeTerm,
-    follow,
+    follow, followUser,
+    getUsers,
     setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleFollowingProgress,
-    toggleLoadingStatus
+    toggleFollowingProgress, unFollowUser
 } from '../../redux/usersReducer';
 import Users from './Users';
 import Spinner from '../common/spinner';
-import {usersApi} from "../../api/api";
 
 class UsersAPI extends Component {
 
@@ -19,28 +17,20 @@ class UsersAPI extends Component {
         usersData: PropTypes.array,
         changeTerm: PropTypes.func,
         term: PropTypes.any,
-        follow: PropTypes.func,
-        setUsers: PropTypes.func,
         totalUsersCount: PropTypes.number,
         pageSize: PropTypes.number,
         currentPage: PropTypes.number,
-        setTotalUsersCount: PropTypes.func,
         setCurrentPage: PropTypes.func,
         isLoading: PropTypes.bool,
-        toggleLoadingStatus: PropTypes.func,
         followingInProgress: PropTypes.array,
-        toggleFollowingProgress: PropTypes.func
+        getUsers: PropTypes.func,
+        followUser: PropTypes.func,
+        unFollowUser: PropTypes.func
     };
 
     componentDidMount() {
-        const {setUsers, setTotalUsersCount, currentPage, pageSize, toggleLoadingStatus} = this.props;
-        toggleLoadingStatus();
-        usersApi.getUsers(currentPage, pageSize)
-            .then(data => {
-                setTotalUsersCount(data.totalCount);
-                setUsers(data.items);
-                toggleLoadingStatus();
-            });
+        const {currentPage, pageSize, getUsers} = this.props;
+        getUsers(currentPage, pageSize);
     }
 
     onChangeTerm = (e) => {
@@ -48,26 +38,21 @@ class UsersAPI extends Component {
         this.props.changeTerm(value);
     };
 
-    onPageChanged = (i) => {
-        const {setCurrentPage, setUsers, toggleLoadingStatus, pageSize} = this.props;
-        setCurrentPage(i);
-        toggleLoadingStatus();
-        usersApi.getUsers(i, pageSize)
-            .then(data => {
-                setUsers(data.items);
-                toggleLoadingStatus();
-            });
+    onPageChanged = (pageNumber) => {
+        const {pageSize, getUsers, setCurrentPage} = this.props;
+        setCurrentPage(pageNumber);
+        getUsers(pageNumber, pageSize);
+
     };
 
     render() {
-        const {usersData, follow, term, totalUsersCount, pageSize, currentPage, isLoading, followingInProgress, toggleFollowingProgress} = this.props;
+        const {usersData, followUser, unFollowUser, term, totalUsersCount, pageSize, currentPage, isLoading, followingInProgress} = this.props;
         return (
             <>
                 {isLoading
                     ? <Spinner/>
                     : <Users
                         usersData={usersData}
-                        onFollowClick={follow}
                         term={term}
                         totalUsersCount={totalUsersCount}
                         pageSize={pageSize}
@@ -75,7 +60,8 @@ class UsersAPI extends Component {
                         onChangeTerm={this.onChangeTerm}
                         onPageChanged={this.onPageChanged}
                         followingInProgress={followingInProgress}
-                        toggleFollowingProgress={toggleFollowingProgress}
+                        followUser={followUser}
+                        unFollowUser={unFollowUser}
                     />}
 
             </>
@@ -100,9 +86,9 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     changeTerm,
     follow,
-    setUsers,
-    setTotalUsersCount,
     setCurrentPage,
-    toggleLoadingStatus,
-    toggleFollowingProgress
+    toggleFollowingProgress,
+    getUsers,
+    followUser,
+    unFollowUser,
 })(UsersAPI);

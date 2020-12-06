@@ -8,14 +8,38 @@ const axiosInstance = axios.create({
 
 export const usersApi = {
     getUsers : async (currentPage = 1, pageSize = 10) => {
-        const res = await axiosInstance.get(`/users?page=${currentPage}&count=${pageSize}`, {});
+        const res = await axiosInstance.get(`/users?page=${currentPage}&count=${pageSize}`);
         return await res.data;
     },
     followUser : (id) => {
-        return axiosInstance.post(`/follow/${id}`, {}, {});
+        return axiosInstance.post(`/follow/${id}`);
     },
     unFollowUser : (id) => {
-        return axiosInstance.delete(`/follow/${id}`, {});
+        return axiosInstance.delete(`/follow/${id}`);
+    }
+};
+
+export const authApi = {
+    me: () => {
+        return axiosInstance.get(`/auth/me`);
+    },
+    login: (email, password ,rememberMe) => {
+        return axiosInstance.post(`/auth/login`, {email, password, rememberMe});
+    },
+    logout: () => {
+        return axiosInstance.delete('/auth/login');
+    }
+};
+
+export const profileApi = {
+    getProfile: (id) => {
+        return axiosInstance.get(`/profile/${id}`);
+    },
+    getStatus: (id) => {
+        return axiosInstance.get(`/profile/status/${id}`);
+    },
+    updateStatus: (status) => {
+        return axiosInstance.put(`/profile/status`, {status: status});
     }
 };
 

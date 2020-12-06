@@ -1,20 +1,21 @@
 import React from 'react';
-
 import classes from './profile.module.scss';
 import ProfileInfo from "./profileInfo/profileInfo";
 import PropTypes from 'prop-types';
-import MyPostsContainer from "./myPosts/myPostsContainer";
+import MyPosts from "./myPosts/myPosts";
 
 
-const Profile = ({profile}) => {
+const Profile = ({profile, status, updateStatus}) => {
     return (
         <div className={classes.profile}>
-            <ProfileInfo profile={profile}/>
-            <MyPostsContainer/>
+            <ProfileInfo status={status} profile={profile} updateStatus={updateStatus}/>
+            <MyPosts/>
         </div>
     );
 };
 Profile.propTypes = {
-    profile: PropTypes.object
+    profile: PropTypes.object,
+    status: PropTypes.any,
+    updateStatus: PropTypes.func
 };
 export default Profile;

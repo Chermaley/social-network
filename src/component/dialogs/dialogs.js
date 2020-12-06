@@ -3,18 +3,18 @@ import classes from './dialogs.module.scss';
 import Dialog from './dialogItem/dialog';
 import Message from './message';
 import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import {addNewMessage} from "../../redux/dialogsReducer";
+import {withAuthRedirect} from "../redirectHOC/redirectHOC";
+import {compose} from "redux";
+import DialogsFormRedux from "./dialogsForm";
 
-const Dialogs = ({dialogsData, messagesData, newMessageText, onMessageChange, addMessage}) => {
 
+const Dialogs = ({dialogsData, messagesData, addNewMessage}) => {
 
-
-    const onChange = (e) => {
-        const text = e.target.value;
-        onMessageChange(text);
-    };
-
-    const sendClick = () => {
-        addMessage();
+    const addMessage = (value) => {
+        const message = value.newMessageText;
+        addNewMessage(message);
     };
 
     const dialogs = dialogsData.map(({id, person}) => {
@@ -25,7 +25,6 @@ const Dialogs = ({dialogsData, messagesData, newMessageText, onMessageChange, ad
         return <Message key={id} label={message}/>;
     });
 
-
     return (
         <div className={classes.dialogs}>
             <div className={classes.dialogsItems}>
@@ -33,10 +32,7 @@ const Dialogs = ({dialogsData, messagesData, newMessageText, onMessageChange, ad
             </div>
             <div className={classes.messages}>
                 <div>{messages}</div>
-                <div><textarea onChange={onChange} value={newMessageText}/></div>
-                <div>
-                    <button onClick={sendClick}>Send</button>
-                </div>
+                <DialogsFormRedux onSubmit={addMessage}/>
             </div>
         </div>
     );
@@ -45,9 +41,14 @@ const Dialogs = ({dialogsData, messagesData, newMessageText, onMessageChange, ad
 Dialogs.propTypes = {
     dialogsData: PropTypes.array,
     messagesData: PropTypes.array,
-    newMessageText: PropTypes.any,
-    onMessageChange: PropTypes.func,
-    addMessage: PropTypes.func
+    addNewMessage: PropTypes.func,
 };
 
-export default Dialogs;
+let mapStateToProps = (state) => {
+    return {
+        dialogsData: state.dialogsPage.dialogs,
+        messagesData: state.dialogsPage.messages
+    };
+};
+
+export default compose(withAuthRedirect, connect(mapStateToProps, {addNewMessage})) (Dialogs);

@@ -3,13 +3,12 @@ import classes from './users.module.scss';
 import User from './user';
 import userPhoto from '../../assets/img/avatar.png';
 import PropTypes from 'prop-types';
-import {usersApi} from "../../api/api";
+
 
 
 const Users = (props) => {
     const {
         usersData,
-        onFollowClick,
         term,
         totalUsersCount,
         pageSize,
@@ -17,7 +16,8 @@ const Users = (props) => {
         onChangeTerm,
         onPageChanged,
         followingInProgress,
-        toggleFollowingProgress
+        followUser,
+        unFollowUser
     } = props;
 
     const pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -35,28 +35,7 @@ const Users = (props) => {
 
     const users = usersData.map(({id, name, status, followed, photos}) => {
         return <User
-            onFollowClick={() => {
-                toggleFollowingProgress(id, true);
-                if (!followed) {
-                    usersApi.followUser(id)
-                        .then(res => {
-                            if (res.data.resultCode === 0) {
-                                onFollowClick(id);
-                                toggleFollowingProgress(id, false);
-                            }
-                        });
-                }  else {
-                    usersApi.unFollowUser(id)
-                        .then(res => {
-                            if (res.data.resultCode === 0) {
-                                onFollowClick(id);
-                                toggleFollowingProgress(id, false);
-                            }
-                        });
-                }
-
-
-            }}
+            onFollowClick={() => followed ? unFollowUser(id) : followUser(id)}
             key={id}
             photoUrl={photos.small ? photos.small : userPhoto}
             followStatus={followed}
@@ -81,7 +60,6 @@ const Users = (props) => {
 
 Users.propTypes = {
     usersData: PropTypes.array,
-    onFollowClick: PropTypes.func,
     term: PropTypes.any,
     totalUsersCount: PropTypes.number,
     pageSize: PropTypes.number,
@@ -89,6 +67,7 @@ Users.propTypes = {
     onChangeTerm: PropTypes.func,
     onPageChanged: PropTypes.func,
     followingInProgress: PropTypes.array,
-    toggleFollowingProgress: PropTypes.func
+    followUser: PropTypes.func,
+    unFollowUser: PropTypes.func
 };
 export default Users;
