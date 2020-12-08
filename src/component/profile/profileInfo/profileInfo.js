@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import Spinner from "../../common/spinner";
 import userPhoto from '../../../assets/img/avatar.png';
-import ProfileStatus from "../profileStatus";
+import ProfileStatusWithHooks from "../profileStatus/profileStatusWithHooks";
 
 const ProfileInfo = ({profile, status, updateStatus}) => {
 
@@ -16,7 +16,7 @@ const ProfileInfo = ({profile, status, updateStatus}) => {
             <div className={classes.description}>
                 <img src={photos.small || userPhoto}/>
             </div>
-            <ProfileStatus status={status} updateStatus={updateStatus}/>
+            <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
         </>
 
     );

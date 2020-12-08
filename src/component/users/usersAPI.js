@@ -4,12 +4,20 @@ import {connect} from 'react-redux';
 import {
     changeTerm,
     follow, followUser,
-    getUsers,
+    requestUsers,
     setCurrentPage,
     toggleFollowingProgress, unFollowUser
 } from '../../redux/usersReducer';
 import Users from './Users';
 import Spinner from '../common/spinner';
+import {
+    // getUsers,
+    getCurrentPage,
+    getIsFollowingInProgress,
+    getIsLoadingStatus,
+    getPageSize,
+    getTotalUsersCount, getUsers
+} from "../../redux/userSelectors";
 
 class UsersAPI extends Component {
 
@@ -23,14 +31,14 @@ class UsersAPI extends Component {
         setCurrentPage: PropTypes.func,
         isLoading: PropTypes.bool,
         followingInProgress: PropTypes.array,
-        getUsers: PropTypes.func,
+        requestUsers: PropTypes.func,
         followUser: PropTypes.func,
         unFollowUser: PropTypes.func
     };
 
     componentDidMount() {
-        const {currentPage, pageSize, getUsers} = this.props;
-        getUsers(currentPage, pageSize);
+        const {currentPage, pageSize, requestUsers} = this.props;
+        requestUsers(currentPage, pageSize);
     }
 
     onChangeTerm = (e) => {
@@ -39,9 +47,9 @@ class UsersAPI extends Component {
     };
 
     onPageChanged = (pageNumber) => {
-        const {pageSize, getUsers, setCurrentPage} = this.props;
+        const {pageSize, requestUsers, setCurrentPage} = this.props;
         setCurrentPage(pageNumber);
-        getUsers(pageNumber, pageSize);
+        requestUsers(pageNumber, pageSize);
 
     };
 
@@ -69,26 +77,24 @@ class UsersAPI extends Component {
     }
 }
 
-
 const mapStateToProps = (state) => {
     return {
-        usersData: state.usersPage.users,
+        usersData: getUsers(state),
         term: state.usersPage.term,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        pageSize: state.usersPage.pageSize,
-        currentPage: state.usersPage.currentPage,
-        isLoading: state.usersPage.isLoading,
-        followingInProgress: state.usersPage.followingInProgress
+        totalUsersCount: getTotalUsersCount(state),
+        pageSize: getPageSize(state),
+        currentPage: getCurrentPage(state),
+        isLoading: getIsLoadingStatus(state),
+        followingInProgress: getIsFollowingInProgress(state)
     };
 };
-
 
 export default connect(mapStateToProps, {
     changeTerm,
     follow,
     setCurrentPage,
     toggleFollowingProgress,
-    getUsers,
+    requestUsers,
     followUser,
     unFollowUser,
 })(UsersAPI);

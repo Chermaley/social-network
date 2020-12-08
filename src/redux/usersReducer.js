@@ -73,7 +73,7 @@ export const setCurrentPage = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNumb
 export const setUsers = (users) => ({type: SET_USERS, users});
 export const toggleFollowingProgress = (id, isFetching) => ({type: TOGGLE_FOLLOWING_PROGRESS, id, isFetching});
 
-export const getUsers = (currentPage, pageSize) => (dispatch) => {
+export const requestUsers = (currentPage, pageSize) => (dispatch) => {
         dispatch(toggleLoadingStatus());
         usersApi.getUsers(currentPage, pageSize)
             .then(data => {

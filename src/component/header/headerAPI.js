@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Header from './header';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {logout, setAuth} from "../../redux/authReducer";
+import {logout} from "../../redux/authReducer";
 class HeaderAPI extends Component {
 
     static propTypes = {
@@ -11,11 +11,6 @@ class HeaderAPI extends Component {
         login: PropTypes.any,
         logout: PropTypes.func
     };
-
-    componentDidMount() {
-        const {setAuth} = this.props;
-        setAuth();
-    }
 
     render() {
         const {isAuth, login, logout} = this.props;
@@ -33,4 +28,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, {setAuth, logout})(HeaderAPI);
+export default connect(mapStateToProps, {logout})(HeaderAPI);

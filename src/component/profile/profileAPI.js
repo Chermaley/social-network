@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
-// import {withAuthRedirect} from "../redirectHOC/redirectHOC";
+import {withAuthRedirect} from "../redirectHOC/redirectHOC";
 import {compose} from "redux";
 import {getProfile, getStatus, updateStatus} from "../../redux/profileReducer";
 
@@ -15,14 +15,19 @@ class ProfileAPI extends Component {
         getStatus: PropTypes.func,
         match: PropTypes.object,
         status: PropTypes.any,
-        updateStatus: PropTypes.func
+        updateStatus: PropTypes.func,
+        authUserId: PropTypes.any,
+        history: PropTypes.any
     };
 
     componentDidMount() {
-        const {getProfile, match, getStatus} = this.props;
+        const {getProfile, match, getStatus, authUserId} = this.props;
         let id = match.params.id;
         if (!id) {
-            id = 13037;
+            id = authUserId;
+            if (!id) {
+                this.props.history.push("/login");
+            }
         }
         getProfile(id);
         getStatus(id);
@@ -39,12 +44,12 @@ class ProfileAPI extends Component {
 const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authUserId: state.auth.userId
     };
 };
 
 export default compose(
-    // withAuthRedirect
-     withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus}))(ProfileAPI);
+    withAuthRedirect,
+    withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus}))(ProfileAPI);
 
-// export default withAuthRedirect(withRouter(connect(mapStateToProps, {getProfile})(Profile)));

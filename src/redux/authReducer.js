@@ -1,4 +1,6 @@
+/* eslint-disable */
 import {authApi} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const DELETE_USER_DATA = 'DELETE_USER_DATA';
@@ -34,8 +36,8 @@ const authReducer = (state = initialState, action) => {
 };
 export const setAuthUserData = (userId, email, login) => ({type: SET_USER_DATA, data: {userId, email, login}});
 const deleteAuthUserData = () => ({type: DELETE_USER_DATA});
-export const setAuth = () => (dispatch) => {
-    authApi.me()
+export const getAuth = () => (dispatch) => {
+    return authApi.me()
         .then(res => {
             if (res.data.resultCode === 0) {
                 const {id, login, email} = res.data.data;
@@ -45,20 +47,24 @@ export const setAuth = () => (dispatch) => {
 };
 
 export const login = (email, password, rememberMe) => (dispatch) => {
-   authApi.login(email, password, rememberMe)
-       .then(res => {
-           if (res.data.resultCode === 0) {
-               dispatch(setAuth());
-           }
-          console.log(res);
-       });
+
+    authApi.login(email, password, rememberMe)
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(getAuth());
+            } else {
+                let message = res.data.messages !== 0 ? res.data.messages[0] : "some error"
+                let action = stopSubmit("login", {_error: message});
+                dispatch(action);
+            }
+        });
 };
 export const logout = () => (dispatch) => {
-   authApi.logout()
-       .then(res => {
-           if (res.data.resultCode === 0) {
-               dispatch(deleteAuthUserData());
-           }
-       });
-} ;
+    authApi.logout()
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(deleteAuthUserData());
+            }
+        });
+};
 export default authReducer;

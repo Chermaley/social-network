@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './nav.module.scss';
 import {NavLink} from "react-router-dom";
 
-import FriendListWrapper from "./friendList/firendListWrapper";
+// import FriendListWrapper from "./friendList/firendListWrapper";
 import {connect} from "react-redux";
 
 const NavBar = () => {
@@ -17,7 +17,7 @@ const NavBar = () => {
                 <div className={classes.item}><NavLink activeClassName={classes.active} to='/music'>Music</NavLink></div>
                 <div className={classes.item}><NavLink activeClassName={classes.active} to='/settings'>Settings</NavLink></div>
             </div>
-            <FriendListWrapper/>
+            {/*<FriendListWrapper/>*/}
         </nav>
     );
 };
