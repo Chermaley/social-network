@@ -1,6 +1,6 @@
 import {getAuth} from "./authReducer";
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+const INITIALIZED_SUCCESS = 'APP/INITIALIZED_SUCCESS';
 const initialState = {
     initialized: false
 };

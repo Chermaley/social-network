@@ -3,7 +3,7 @@ import classes from './users.module.scss';
 import User from './user';
 import userPhoto from '../../assets/img/avatar.png';
 import PropTypes from 'prop-types';
-
+import Paginator from "./paginator";
 
 
 const Users = (props) => {
@@ -20,18 +20,6 @@ const Users = (props) => {
         unFollowUser
     } = props;
 
-    const pagesCount = Math.ceil(totalUsersCount / pageSize);
-
-    let pagesBtn = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        const className = currentPage === i ? classes.selectedPage : '';
-        const btn = <span
-            key={i}
-            className={className}
-            onClick={() => onPageChanged(i)}
-        >{i}</span>;
-        pagesBtn.push(btn);
-    }
 
     const users = usersData.map(({id, name, status, followed, photos}) => {
         return <User
@@ -48,9 +36,10 @@ const Users = (props) => {
 
     return (
         <div>
-            <div>
-                {pagesBtn}
-            </div>
+            <Paginator totalUsersCount={totalUsersCount}
+                       pageSize={pageSize}
+                       currentPage={currentPage}
+                       onPageChanged={onPageChanged}/>
             <textarea onChange={onChangeTerm} value={term}/>
             {users}
         </div>

@@ -1,5 +1,5 @@
-const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE';
-const ADD_MESSAGE = 'ADD_MESSAGE';
+
+const ADD_MESSAGE = 'DIALOGS/ADD_MESSAGE';
 
 const initialState = {
         messages: [
