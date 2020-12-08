@@ -3,6 +3,7 @@ import {profileApi} from "../api/api";
 const ADD_POST = 'ADD-POST';
 const SET_PROFILE = 'SET_PROFILE';
 const SET_STATUS = 'SET_STATUS';
+const DELETE_POST = 'DELETE_POST';
 const initialState = {
     posts: [
         {img: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png', text: 'wow', likesCount: 2, id: 1},
@@ -17,7 +18,7 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST:
             newPost = {
-                id: 5,
+                id: 2,
                 text: action.postText,
                 likesCount: 0
             };
@@ -35,6 +36,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 status: action.status
             };
+        case DELETE_POST:
+            return {
+                ...state,
+                posts:  state.posts.filter(({id}) => id !== action.id)
+            };
         default:
             return state;
     }
@@ -43,7 +49,7 @@ const profileReducer = (state = initialState, action) => {
 export const addNewPost = (postText) => ({type: ADD_POST, postText});
 const setProfile = (profile) => ({type: SET_PROFILE, profile});
 const setStatus = (status) => ({type: SET_STATUS, status});
-
+export const deletePost = (id) => ({type: DELETE_POST, id});
 export const getProfile = (id) => (dispatch) => {
     profileApi.getProfile(id)
         .then(res => {

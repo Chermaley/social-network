@@ -7,7 +7,10 @@ import {connect} from "react-redux";
 import MyPostForm from "./myPostForm";
 
 
-const MyPosts = ({postData, addNewPost}) => {
+
+// eslint-disable-next-line react/display-name
+const MyPosts = React.memo(props => {
+    let {postData, addNewPost} = props;
 
     const posts = postData.map(({img, text, id, likesCount}) => {
         return <Post key={id} img={img} text={text} likesCount={likesCount}/>;
@@ -27,7 +30,8 @@ const MyPosts = ({postData, addNewPost}) => {
             </div>
         </div>
     );
-};
+})
+
 MyPosts.propTypes = {
     postData: PropTypes.array,
     addNewPost: PropTypes.func,
