@@ -9,7 +9,7 @@ import {
     toggleFollowingProgress, unFollowUser
 } from '../../redux/usersReducer';
 import Users from './Users';
-import Spinner from '../common/spinner';
+
 import {
     // getUsers,
     getCurrentPage,
@@ -57,9 +57,8 @@ class UsersAPI extends Component {
         const {usersData, followUser, unFollowUser, term, totalUsersCount, pageSize, currentPage, isLoading, followingInProgress} = this.props;
         return (
             <>
-                {isLoading
-                    ? <Spinner/>
-                    : <Users
+                    <Users
+                        isLoading={isLoading}
                         usersData={usersData}
                         term={term}
                         totalUsersCount={totalUsersCount}
@@ -70,7 +69,7 @@ class UsersAPI extends Component {
                         followingInProgress={followingInProgress}
                         followUser={followUser}
                         unFollowUser={unFollowUser}
-                    />}
+                    />
 
             </>
         );

@@ -40,6 +40,18 @@ export const profileApi = {
     },
     updateStatus: (status) => {
         return axiosInstance.put(`/profile/status`, {status: status});
+    },
+    uploadUserPhoto: (photo) => {
+        const formData = new FormData;
+        formData.append("image", photo);
+        return axiosInstance.put('/profile/photo', formData, {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        });
+    },
+    uploadUserData: (profile) => {
+        return axiosInstance.put('/profile', profile);
     }
 };
 

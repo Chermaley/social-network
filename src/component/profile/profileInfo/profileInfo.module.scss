@@ -1,3 +1,13 @@
 .description{
+  gap: 100px;
   padding: 10px;
+  display: grid;
+  grid-template-columns: 200px 600px;
+}
+.profilePhoto{
+  width: 200px;
+  height: 200px;
+}
+.contacts{
+  padding-left: 10px;
 }

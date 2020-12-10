@@ -1,9 +1,9 @@
 import React from 'react';
-import classes from './users.module.scss';
 import User from './user';
 import userPhoto from '../../assets/img/avatar.png';
 import PropTypes from 'prop-types';
 import Paginator from "./paginator";
+import Spinner from "../common/spinner";
 
 
 const Users = (props) => {
@@ -17,7 +17,8 @@ const Users = (props) => {
         onPageChanged,
         followingInProgress,
         followUser,
-        unFollowUser
+        unFollowUser,
+        isLoading
     } = props;
 
 
@@ -36,12 +37,13 @@ const Users = (props) => {
 
     return (
         <div>
-            <Paginator totalUsersCount={totalUsersCount}
+            <Paginator totalItemsCount={totalUsersCount}
                        pageSize={pageSize}
                        currentPage={currentPage}
                        onPageChanged={onPageChanged}/>
+
             <textarea onChange={onChangeTerm} value={term}/>
-            {users}
+            {isLoading ? <Spinner/> : users}
         </div>
     );
 };
@@ -57,6 +59,7 @@ Users.propTypes = {
     onPageChanged: PropTypes.func,
     followingInProgress: PropTypes.array,
     followUser: PropTypes.func,
-    unFollowUser: PropTypes.func
+    unFollowUser: PropTypes.func,
+    isLoading: PropTypes.bool
 };
 export default Users;

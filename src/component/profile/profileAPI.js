@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../redirectHOC/redirectHOC";
 import {compose} from "redux";
-import {getProfile, getStatus, updateStatus} from "../../redux/profileReducer";
+import {getProfile, getStatus, savePhoto, saveProfileData, updateStatus} from "../../redux/profileReducer";
 
 class ProfileAPI extends Component {
 
@@ -17,10 +17,23 @@ class ProfileAPI extends Component {
         status: PropTypes.any,
         updateStatus: PropTypes.func,
         authUserId: PropTypes.any,
-        history: PropTypes.any
+        history: PropTypes.any,
+        savePhoto: PropTypes.func,
+        saveProfileData: PropTypes.func
     };
 
-    componentDidMount() {
+    savePhoto = (photo) => {
+        const {savePhoto} = this.props;
+        savePhoto(photo);
+    };
+
+    saveProfile = (profile) => {
+        const {saveProfileData, authUserId} = this.props;
+        profile['userId'] = authUserId;
+        saveProfileData(profile);
+    };
+
+    refreshProfileData = () => {
         const {getProfile, match, getStatus, authUserId} = this.props;
         let id = match.params.id;
         if (!id) {
@@ -31,12 +44,28 @@ class ProfileAPI extends Component {
         }
         getProfile(id);
         getStatus(id);
+    };
+
+    componentDidMount() {
+        this.refreshProfileData();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+            this.refreshProfileData();
+        }
     }
 
     render() {
         const {profile, status, updateStatus} = this.props;
         return (
-            <Profile {...this.props} profile={profile} status={status} updateStatus={updateStatus}/>
+            <Profile {...this.props}
+                     isOwner={!this.props.match.params.id}
+                     profile={profile}
+                     status={status}
+                     savePhoto={(photo) => this.savePhoto(photo)}
+                     updateStatus={updateStatus}
+                     saveProfile={this.saveProfile}/>
         );
     }
 }
@@ -45,11 +74,11 @@ const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
-        authUserId: state.auth.userId
+        authUserId: state.auth.userId,
     };
 };
 
 export default compose(
     withAuthRedirect,
-    withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus}))(ProfileAPI);
+    withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus, savePhoto, saveProfileData}))(ProfileAPI);
 

@@ -1,30 +1,47 @@
-import React from "react";
-import PropTypes from 'prop-types';
-import classes from "./paginator.module.scss";
-const Paginator = ({totalUsersCount, pageSize, currentPage, onPageChanged}) => {
-    const pagesCount = Math.ceil(totalUsersCount / pageSize);
+import React, {useState} from 'react';
+import styles from "./paginator.module.scss";
+import cn from "classnames";
 
-    let pagesBtn = [];
+// eslint-disable-next-line react/prop-types
+let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
+
+    let pagesCount = Math.ceil(totalItemsCount / pageSize);
+
+    let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
-        const className = currentPage === i ? classes.selectedPage : '';
-        const btn = <span
-            key={i}
-            className={className}
-            onClick={() => onPageChanged(i)}
-        >{i}</span>;
-        pagesBtn.push(btn);
+        pages.push(i);
     }
-    return (
-        <div>
-            {pagesBtn}
-        </div>
 
-    );
+    let portionCount = Math.ceil(pagesCount / portionSize);
+    let [portionNumber, setPortionNumber] = useState(1);
+    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
+    let rightPortionPageNumber = portionNumber * portionSize;
+
+
+    return <div className={styles.paginator}>
+        {portionNumber > 1 &&
+        <button onClick={() => {
+            setPortionNumber(portionNumber - 1);
+        }}>PREV</button>}
+
+        {pages
+            .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+            .map((p) => {
+                return <span className={cn({
+                    [styles.selectedPage]: currentPage === p
+                }, styles.pageNumber)}
+                             key={p}
+                             onClick={() => {
+                                 onPageChanged(p);
+                             }}>{p}</span>;
+            })}
+        {portionCount > portionNumber &&
+        <button onClick={() => {
+            setPortionNumber(portionNumber + 1);
+        }}>NEXT</button>}
+
+
+    </div>;
 };
-Paginator.propTypes = {
-    totalUsersCount: PropTypes.number,
-    pageSize: PropTypes.number,
-    currentPage: PropTypes.number,
-    onPageChanged: PropTypes.number
-};
+
 export default Paginator;

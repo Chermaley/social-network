@@ -31,11 +31,12 @@ Textarea.propTypes = {
 };
 
 export const Input  = (props) => {
-    const {input, ...restProps} = props;
-    return <FormControl {...props}><input {...input} {...restProps}/></FormControl>;
+    const {input, type, ...restProps} = props;
+    return <FormControl {...props}><input type={type} {...input} {...restProps}/></FormControl>;
 };
 
 Input.propTypes = {
     input: PropTypes.object,
+    type: PropTypes.string,
     meta: PropTypes.object
 };
