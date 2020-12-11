@@ -4,8 +4,17 @@ import PropTypes from "prop-types";
 import {Field, Form, reduxForm} from "redux-form";
 import {Input, Textarea} from "../common/formsControl/formControls";
 import {requiredField} from "../../utils/validators";
+import classes from "../common/formsControl/formControls.module.scss";
 
-const ProfileDataForm = ({handleSubmit}) => {
+const ProfileDataForm = ({handleSubmit, profile, error}) => {
+
+    const summaryError = error ? <div className={classes.summaryError}>{error}</div> : null;
+
+    const contactsInput = Object.keys(profile.contacts).map((key) => {
+        return <div key={key}>{key} <Field name={`contacts.${key}`} component={Input}/></div>;
+    });
+
+
     return (
         <>
             <Form onSubmit={handleSubmit}>
@@ -16,6 +25,8 @@ const ProfileDataForm = ({handleSubmit}) => {
                 <div>My professional skills: <Field name={'lookingForAJobDescription'}
                                                     placeholder={'Your professional skills ?'} component={Textarea}/>
                 </div>
+                {contactsInput}
+                <div>{summaryError}</div>
                 <button>Save</button>
             </Form>
         </>
@@ -27,9 +38,10 @@ ProfileDataForm.propTypes = {
     aboutMe: PropTypes.string,
     lookingForAJob: PropTypes.string,
     lookingForAJobDescription: PropTypes.string,
-    contactsList: PropTypes.array,
+    profile: PropTypes.object,
     toggleEditMode: PropTypes.func,
-    handleSubmit: PropTypes.func
+    handleSubmit: PropTypes.func,
+    error: PropTypes.string,
 };
 
 const ProfileDataReduxForm = reduxForm({form: 'edit-profile'})(ProfileDataForm);

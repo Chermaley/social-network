@@ -19,7 +19,7 @@ class ProfileAPI extends Component {
         authUserId: PropTypes.any,
         history: PropTypes.any,
         savePhoto: PropTypes.func,
-        saveProfileData: PropTypes.func
+        saveProfileData: PropTypes.any
     };
 
     savePhoto = (photo) => {
@@ -27,11 +27,6 @@ class ProfileAPI extends Component {
         savePhoto(photo);
     };
 
-    saveProfile = (profile) => {
-        const {saveProfileData, authUserId} = this.props;
-        profile['userId'] = authUserId;
-        saveProfileData(profile);
-    };
 
     refreshProfileData = () => {
         const {getProfile, match, getStatus, authUserId} = this.props;
@@ -57,7 +52,7 @@ class ProfileAPI extends Component {
     }
 
     render() {
-        const {profile, status, updateStatus} = this.props;
+        const {profile, status, updateStatus, saveProfileData} = this.props;
         return (
             <Profile {...this.props}
                      isOwner={!this.props.match.params.id}
@@ -65,7 +60,7 @@ class ProfileAPI extends Component {
                      status={status}
                      savePhoto={(photo) => this.savePhoto(photo)}
                      updateStatus={updateStatus}
-                     saveProfile={this.saveProfile}/>
+                     saveProfile={saveProfileData}/>
         );
     }
 }

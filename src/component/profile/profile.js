@@ -6,9 +6,10 @@ import MyPosts from "./myPosts/myPosts";
 
 
 const Profile = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
+
     return (
         <div className={classes.profile}>
-            <ProfileInfo sa saveProfile={saveProfile} savePhoto={savePhoto} isOwner={isOwner} status={status} profile={profile} updateStatus={updateStatus}/>
+            <ProfileInfo saveProfile={saveProfile} savePhoto={savePhoto} isOwner={isOwner} status={status} profile={profile} updateStatus={updateStatus}/>
             <MyPosts/>
         </div>
     );
@@ -19,6 +20,6 @@ Profile.propTypes = {
     updateStatus: PropTypes.func,
     isOwner: PropTypes.bool,
     savePhoto: PropTypes.func,
-    saveProfile: PropTypes.func
+    saveProfile: PropTypes.any
 };
 export default Profile;

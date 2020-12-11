@@ -7,7 +7,6 @@ import ProfileStatusWithHooks from "../profileStatus/profileStatusWithHooks";
 import ProfileDataForm from "../profileDataForm";
 
 const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
-    console.log(profile);
     const [editMode, changeEditMode] = useState(false);
 
     const toggleEditMode = () => {
@@ -26,9 +25,12 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
         }
     };
 
-    const onFormSubmit = (formData) => {
-        toggleEditMode();
-        saveProfile(formData);
+
+    const onFormSubmit =  (formData) => {
+        saveProfile(formData).then(
+            () => {toggleEditMode();}
+        );
+
     };
 
     if (!profile) {
@@ -51,7 +53,7 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
                 </div>
                 {editMode
                     ? <ProfileDataForm initialValues={profile}
-                                       contactsList={contactsList}
+                                       profile={profile}
                                        toggleEditMode={toggleEditMode}
                                        onSubmit={onFormSubmit}/>
                     : <ProfileData contactsList={contactsList}
@@ -106,7 +108,7 @@ ProfileInfo.propTypes = {
     updateStatus: PropTypes.func,
     isOwner: PropTypes.bool,
     savePhoto: PropTypes.func,
-    saveProfile: PropTypes.func
+    saveProfile: PropTypes.any
 };
 
 export default ProfileInfo;

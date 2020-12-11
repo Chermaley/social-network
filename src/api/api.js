@@ -23,11 +23,18 @@ export const authApi = {
     me: () => {
         return axiosInstance.get(`/auth/me`);
     },
-    login: (email, password ,rememberMe) => {
-        return axiosInstance.post(`/auth/login`, {email, password, rememberMe});
+    login: (email, password ,rememberMe, captcha) => {
+        return axiosInstance.post(`/auth/login`, {email, password, rememberMe, captcha});
     },
     logout: () => {
         return axiosInstance.delete('/auth/login');
+    },
+
+};
+
+export const securityApi = {
+    getCaptcha: () => {
+        return axiosInstance.get('/security/get-captcha-url');
     }
 };
 
