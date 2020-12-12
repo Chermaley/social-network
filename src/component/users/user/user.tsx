@@ -1,9 +1,22 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import classes from './user.module.scss';
 import {NavLink} from "react-router-dom";
 
-const User = ({fullName, onFollowClick, followStatus, location, photoUrl, status, id: userId, followingInProgress}) => {
+type PropsType = {
+    fullName: string,
+    onFollowClick: () => void,
+    followStatus: boolean,
+    location: string,
+    photoUrl: string,
+    status: string,
+    id: number,
+    followingInProgress: Array<number>
+}
+
+const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
+                                      location, photoUrl, status,
+                                      id: userId, followingInProgress}) => {
+
     const followUnfollow = followStatus ? 'unfollow' : 'follow';
     return (
         <div>
@@ -29,15 +42,5 @@ const User = ({fullName, onFollowClick, followStatus, location, photoUrl, status
         </div>
     );
 };
-User.propTypes = {
-    fullName: PropTypes.any,
-    status: PropTypes.any,
-    onFollowClick: PropTypes.func,
-    followStatus: PropTypes.bool,
-    photoUrl: PropTypes.string,
-    location: PropTypes.any,
-    id: PropTypes.any,
-    followingInProgress: PropTypes.array
 
-};
 export default User;

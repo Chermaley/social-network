@@ -1,9 +1,13 @@
-
 import React from 'react';
 import classes from './post.module.scss';
-import PropTypes from 'prop-types';
 
-const Post = ({img, text, likesCount}) => {
+type PostProps = {
+    img: string,
+    text: string,
+    likesCount: number
+}
+
+const Post:React.FC<PostProps> = ({img, text, likesCount}) => {
     return (
         <div className={classes.item}>
             <img src={img} alt='avatar'/>
@@ -15,10 +19,5 @@ const Post = ({img, text, likesCount}) => {
     );
 };
 
-Post.propTypes = {
-    img: PropTypes.string,
-    text: PropTypes.string,
-    likesCount: PropTypes.number
-};
 
 export default Post;

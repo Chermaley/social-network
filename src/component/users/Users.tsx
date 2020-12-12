@@ -1,26 +1,31 @@
 import React from 'react';
 import User from './user';
 import userPhoto from '../../assets/img/avatar.png';
-import PropTypes from 'prop-types';
 import Paginator from "./paginator";
 import Spinner from "../common/spinner";
+import {UserType} from "../../types/types";
 
+type PropsType = {
+    usersData: Array<UserType>,
+    term: string,
+    totalUsersCount: number,
+    pageSize: number,
+    currentPage: number,
+    onChangeTerm: (e: any) => void,
+    onPageChanged: (pageNumber: number) => void,
+    followingInProgress: Array<number>,
+    followUser: (id: number) => void,
+    unFollowUser: (id: number) => void,
+    isLoading: boolean
+}
 
-const Users = (props) => {
+const Users: React.FC<PropsType> = (props) => {
     const {
-        usersData,
-        term,
-        totalUsersCount,
-        pageSize,
-        currentPage,
-        onChangeTerm,
-        onPageChanged,
-        followingInProgress,
-        followUser,
-        unFollowUser,
-        isLoading
+        usersData, term, totalUsersCount,
+        pageSize, currentPage, onChangeTerm,
+        onPageChanged, followingInProgress,
+        followUser, unFollowUser, isLoading
     } = props;
-
 
     const users = usersData.map(({id, name, status, followed, photos}) => {
         return <User
@@ -40,7 +45,8 @@ const Users = (props) => {
             <Paginator totalItemsCount={totalUsersCount}
                        pageSize={pageSize}
                        currentPage={currentPage}
-                       onPageChanged={onPageChanged}/>
+                       onPageChanged={onPageChanged}
+            />
 
             <textarea onChange={onChangeTerm} value={term}/>
             {isLoading ? <Spinner/> : users}
@@ -49,17 +55,4 @@ const Users = (props) => {
 };
 
 
-Users.propTypes = {
-    usersData: PropTypes.array,
-    term: PropTypes.any,
-    totalUsersCount: PropTypes.number,
-    pageSize: PropTypes.number,
-    currentPage: PropTypes.number,
-    onChangeTerm: PropTypes.func,
-    onPageChanged: PropTypes.func,
-    followingInProgress: PropTypes.array,
-    followUser: PropTypes.func,
-    unFollowUser: PropTypes.func,
-    isLoading: PropTypes.bool
-};
 export default Users;

@@ -15,6 +15,14 @@
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "overrides": [
+        {
+            "files": ["**/*.tsx"],
+            "rules": {
+                "react/prop-types": "off"
+            }
+        }
+    ],
     "plugins": [
         "jest",
         "react",
@@ -23,7 +31,8 @@
     ],
     "rules": {
         "operator-linebreak": "off",
-        "no-unused-vars": ["error", { "caughtErrorsIgnorePattern": "^ignore" }],
+        "no-unused-vars": ["off"],
+        "@typescript-eslint/no-unused-vars": "error",
     	"react/jsx-uses-react": 1,
         "react/jsx-uses-vars": "error",
         "linebreak-style": "off",
