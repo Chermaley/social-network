@@ -30,7 +30,7 @@ const MyPosts = React.memo(props => {
             </div>
         </div>
     );
-})
+});
 
 MyPosts.propTypes = {
     postData: PropTypes.array,

@@ -1,6 +1,7 @@
-
 import {authApi, securityApi} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./reduxStore";
 
 const SET_USER_DATA = 'AUTH/SET_USER_DATA';
 const DELETE_USER_DATA = 'AUTH/DELETE_USER_DATA';
@@ -24,6 +25,10 @@ const initialState: InitialStateType = {
     isAuth: false,
     captcha: null
 };
+
+type ActionsType = SetAuthUserDataActionType |
+    SetCaptchaUrlActionType | CaptchaSuccessActionType
+
 const authReducer = (state = initialState, action: any): InitialStateType => {
 
     switch (action.type) {
@@ -58,6 +63,8 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
             return state;
     }
 };
+
+
 export default authReducer;
 type SetAuthUserDataActionDataType = {
     userId: number,
@@ -85,7 +92,7 @@ const setCaptchaUrl = (url: string): SetCaptchaUrlActionType => ({type: SET_CAPT
 type CaptchaSuccessActionType = {
     type: typeof CAPTCHA_SUCCESS
 }
-const captchaSuccess = ():CaptchaSuccessActionType => ({type: CAPTCHA_SUCCESS});
+const captchaSuccess = (): CaptchaSuccessActionType => ({type: CAPTCHA_SUCCESS});
 
 
 export const getAuth = () => async (dispatch: any) => {
@@ -96,31 +103,31 @@ export const getAuth = () => async (dispatch: any) => {
     }
 };
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: any) => {
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
-    let res = await authApi.login(email, password, rememberMe, captcha);
-
-
-    if (res.data.resultCode === 0) {
-        dispatch(getAuth());
-        dispatch(captchaSuccess());
-    } else {
-        let message = res.data.messages !== 0 ? res.data.messages[0] : "some error";
-        let action = stopSubmit("login", {_error: message});
-        if (res.data.resultCode === 10) {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType =>
+    async (dispatch: any) => {
+        let res = await authApi.login(email, password, rememberMe, captcha);
+        if (res.data.resultCode === 0) {
+            dispatch(getAuth());
+            dispatch(captchaSuccess());
+        } else {
+            let message = res.data.messages !== 0 ? res.data.messages[0] : "some error";
+            let action = stopSubmit("login", {_error: message});
+            if (res.data.resultCode === 10) {
+                dispatch(action);
+                dispatch(getCaptchaUrl());
+            }
             dispatch(action);
-            dispatch(getCaptchaUrl());
         }
-        dispatch(action);
-    }
-};
-export const logout = () => async (dispatch: any) => {
+    };
+export const logout = (): ThunkType => async (dispatch: any) => {
     let res = await authApi.logout();
     if (res.data.resultCode === 0) {
         dispatch(deleteAuthUserData());
     }
 };
-export const getCaptchaUrl = () => async (dispatch: any) => {
+export const getCaptchaUrl = (): ThunkType => async (dispatch: any) => {
     let res = await securityApi.getCaptcha();
     if (res.data.url) {
         dispatch(setCaptchaUrl(res.data.url));

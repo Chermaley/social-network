@@ -9,7 +9,7 @@ export type InitialStateType = {
 const initialState: InitialStateType = {
     initialized: false
 };
-const appReducer = (state = initialState, action: any): InitialStateType=> {
+const appReducer = (state = initialState, action: ActionsType): InitialStateType=> {
 
     switch (action.type) {
         case INITIALIZED_SUCCESS:
@@ -22,6 +22,8 @@ const appReducer = (state = initialState, action: any): InitialStateType=> {
     }
 };
 
+type ActionsType = InitializedSuccessActionType;
+
 type InitializedSuccessActionType = {
     type: typeof INITIALIZED_SUCCESS
 }
@@ -29,7 +31,7 @@ type InitializedSuccessActionType = {
 export const initializedSuccess = () :InitializedSuccessActionType => ({type: INITIALIZED_SUCCESS});
 export default appReducer;
 
-export const initializeApp = () => (dispatch : any) => {
+export const initializeApp = () => async (dispatch : any) => {
     let dispatchResult = dispatch(getAuth());
     dispatchResult
         .then(() => {

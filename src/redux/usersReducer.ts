@@ -1,5 +1,8 @@
 import {usersApi} from "../api/api";
 import {UserType} from "../types/types";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./reduxStore";
+import {Dispatch} from "redux";
 
 const CHANGE_TERM = 'USERS/CHANGE_TERM';
 const TOGGLE_FOLLOW = 'USERS/TOGGLE_FOLLOW';
@@ -8,7 +11,6 @@ const SET_USERS = 'USERS/SET_USERS';
 const SET_TOTAL_USERS_COUNT = 'USERS/SET_TOTAL_USERS_COUNT';
 const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE';
 const TOGGLE_FOLLOWING_PROGRESS = 'USERS/TOGGLE_FOLLOWING_PROGRESS';
-
 
 const initialState = {
     users: [] as Array<UserType>,
@@ -20,7 +22,13 @@ const initialState = {
     term: ''
 };
 export type InitialStateType = typeof initialState;
-const usersReducer = (state = initialState, action: any): InitialStateType => {
+
+type ActionsType =  FollowActionType | ToggleLoadingStatusActionType |
+    ChangeTermActionType | SetTotalUsersCountActionType |
+    SetCurrentPageActionType | SetUsersActionType |
+    ToggleFollowingInProgressActionType
+
+const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
     switch (action.type) {
         case SET_USERS:
@@ -69,6 +77,7 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
             return state;
     }
 };
+
 type FollowActionType = {
     type: typeof TOGGLE_FOLLOW,
     id: number
@@ -90,9 +99,12 @@ type SetTotalUsersCountActionType = {
     type: typeof SET_TOTAL_USERS_COUNT,
     usersCount: number
 }
-export const setTotalUsersCount = (usersCount: number): SetTotalUsersCountActionType => ({type: SET_TOTAL_USERS_COUNT, usersCount});
+export const setTotalUsersCount = (usersCount: number): SetTotalUsersCountActionType => ({
+    type: SET_TOTAL_USERS_COUNT,
+    usersCount
+});
 
-type SetCurrentPageActionType ={
+type SetCurrentPageActionType = {
     type: typeof SET_CURRENT_PAGE,
     pageNumber: number
 }
@@ -109,9 +121,17 @@ type ToggleFollowingInProgressActionType = {
     id: number,
     isFetching: boolean
 }
-export const toggleFollowingProgress = (id: number, isFetching: boolean): ToggleFollowingInProgressActionType => ({type: TOGGLE_FOLLOWING_PROGRESS, id, isFetching});
+export const toggleFollowingProgress = (id: number, isFetching: boolean): ToggleFollowingInProgressActionType => ({
+    type: TOGGLE_FOLLOWING_PROGRESS,
+    id,
+    isFetching
+});
 
-export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: any) => {
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+type DispatchType = Dispatch<ActionsType>
+
+export const requestUsers = (currentPage: number, pageSize: number): ThunkType =>
+                    async (dispatch: DispatchType) => {
     dispatch(toggleLoadingStatus());
     let res = await usersApi.getUsers(currentPage, pageSize);
     dispatch(toggleLoadingStatus());
@@ -119,7 +139,7 @@ export const requestUsers = (currentPage: number, pageSize: number) => async (di
     dispatch(setUsers(res.items));
 };
 
-const followUnfollowFlow = async (dispatch: any, id: number, action: any, apiMethod: any) => {
+const _followUnfollowFlow = async (dispatch: DispatchType, id: number, action:(id: number) => FollowActionType, apiMethod: any) => {
     dispatch(toggleFollowingProgress(id, true));
     let res = await apiMethod(id);
     if (res.data.resultCode === 0) {
@@ -128,11 +148,11 @@ const followUnfollowFlow = async (dispatch: any, id: number, action: any, apiMet
     }
 };
 
-export const followUser = (id: number) => (dispatch: any) => {
-    followUnfollowFlow(dispatch, id, follow, usersApi.followUser);
+export const followUser = (id: number): ThunkType => async (dispatch) => {
+    _followUnfollowFlow(dispatch, id, follow, usersApi.followUser) ;
 };
-export const unFollowUser = (id: number) => async (dispatch: any) => {
-    followUnfollowFlow(dispatch, id, follow, usersApi.unFollowUser);
+export const unFollowUser = (id: number): ThunkType => async (dispatch) => {
+    _followUnfollowFlow(dispatch, id, follow, usersApi.unFollowUser);
 };
 
 export default usersReducer;

@@ -1,14 +1,16 @@
 import React, {Component} from "react";
-import PropTypes from 'prop-types';
 
-export default class ProfileStatus extends Component {
-    static propTypes = {
-        status: PropTypes.any,
-        updateStatus: PropTypes.func
-    };
+type PropsType = {
+    status: string,
+    updateStatus: (status: string) => void
+}
+type StateType = {
+    editMode: boolean,
+    status: string
+}
+export default class ProfileStatus extends Component<PropsType> {
 
-
-    state = {
+    state: StateType = {
         editMode: false,
         status: this.props.status
     };
@@ -22,18 +24,17 @@ export default class ProfileStatus extends Component {
         this.props.updateStatus(this.state.status);
     };
 
-    editStatus = (e) => {
-        const status = e.target.value;
+    editStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const status = e.currentTarget.value;
         this.setState({status});
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: PropsType) {
         if (prevProps.status !== this.props.status) {
             this.setState({status: this.props.status});
         }
     }
     render() {
-
         const content = this.state.editMode
             ? <input
                 onChange={this.editStatus}
@@ -46,7 +47,6 @@ export default class ProfileStatus extends Component {
                 <div>
                     {content}
                 </div>
-
             </>
         );
     }
