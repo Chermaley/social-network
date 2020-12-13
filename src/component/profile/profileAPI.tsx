@@ -1,28 +1,29 @@
 import Profile from "./profile";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../redirectHOC/redirectHOC";
 import {compose} from "redux";
 import {getProfile, getStatus, savePhoto, saveProfileData, updateStatus} from "../../redux/profileReducer";
+import {ProfileType} from "../../types/types";
+import {AppStateType} from "../../redux/reduxStore";
 
-class ProfileAPI extends Component {
+type PropsTypes = {
+    savePhoto: (photo: any) => void,
+    getProfile: (id: number) => void,
+    getStatus: (id: number) => void,
+    saveProfileData: () => void,
+    updateStatus: () => void,
+    profile: ProfileType,
+    match: any,
+    authUserId: number,
+    status: string,
+    history: any
+}
 
-    static propTypes = {
-        profile: PropTypes.any,
-        getProfile: PropTypes.func,
-        getStatus: PropTypes.func,
-        match: PropTypes.object,
-        status: PropTypes.any,
-        updateStatus: PropTypes.func,
-        authUserId: PropTypes.any,
-        history: PropTypes.any,
-        savePhoto: PropTypes.func,
-        saveProfileData: PropTypes.any
-    };
+class ProfileAPI extends Component<PropsTypes> {
 
-    savePhoto = (photo) => {
+    savePhoto = (photo: any) => {
         const {savePhoto} = this.props;
         savePhoto(photo);
     };
@@ -45,7 +46,7 @@ class ProfileAPI extends Component {
         this.refreshProfileData();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: PropsTypes) {
         if (prevProps.match.params.id !== this.props.match.params.id) {
             this.refreshProfileData();
         }
@@ -65,7 +66,7 @@ class ProfileAPI extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
