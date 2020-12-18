@@ -5,9 +5,11 @@
         "es6": true,
         "node": true
     },
-    "extends": ["eslint:recommended",
-                 "plugin:react/recommended"],
-                 "parser": "@typescript-eslint/parser",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -17,7 +19,9 @@
     },
     "overrides": [
         {
-            "files": ["**/*.tsx"],
+            "files": [
+                "**/*.tsx"
+            ],
             "rules": {
                 "react/prop-types": "off"
             }
@@ -31,16 +35,18 @@
     ],
     "rules": {
         "operator-linebreak": "off",
-        "no-unused-vars": ["off"],
+        "no-unused-vars": [
+            "off"
+        ],
         "@typescript-eslint/no-unused-vars": "error",
-    	"react/jsx-uses-react": 1,
+        "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": "error",
         "linebreak-style": "off",
         "babel/new-cap": 1,
         "babel/camelcase": 1,
         "babel/no-invalid-this": 1,
         "babel/object-curly-spacing": 1,
-        "babel/semi":1,
+        "babel/semi": 1,
         "babel/no-unused-expressions": 1,
         "babel/valid-typeof": 1,
         "jest/no-disabled-tests": "warn",
@@ -48,6 +54,5 @@
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error"
-
     }
 }

@@ -1,4 +1,4 @@
-import {profileApi} from "../api/api";
+import {profileApi, ResultsCodesEnum} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {PhotosType, PostType, ProfileType} from "../types/types";
 import {ThunkAction} from "redux-thunk";
@@ -119,19 +119,19 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 type DispatchType = Dispatch<ActionsType>
 
 export const getProfile = (id: number): ThunkType => async (dispatch: DispatchType) => {
-    let res = await profileApi.getProfile(id);
-    dispatch(setProfile(res.data));
+    let profileData = await profileApi.getProfile(id);
+    dispatch(setProfile(profileData));
 };
 
 
 export const getStatus = (id: number): ThunkType => async (dispatch: DispatchType) => {
-    let res = await profileApi.getStatus(id);
-    dispatch(setStatus(res.data));
+    let status = await profileApi.getStatus(id);
+    dispatch(setStatus(status));
 };
 
 export const updateStatus = (status: string): ThunkType => async (dispatch: DispatchType) => {
     let res = await profileApi.updateStatus(status);
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultsCodesEnum.Success) {
         dispatch(setStatus(status));
     }
 };
@@ -139,14 +139,14 @@ export const updateStatus = (status: string): ThunkType => async (dispatch: Disp
 export const savePhoto = (photo: any): ThunkType => async (dispatch: DispatchType) => {
     let res = await profileApi.uploadUserPhoto(photo);
     console.log(res);
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultsCodesEnum.Success) {
         dispatch(savePhotoSuccess(res.data.data.photos));
     }
 };
 
 export const saveProfileData = (profile: ProfileType): ThunkType => async (dispatch: any, getState: any) => {
     let res = await profileApi.uploadUserData(profile);
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultsCodesEnum.Success) {
         dispatch(getProfile(getState().auth.userId));
     } else {
         let message = res.data.messages !== 0 ? res.data.messages[0] : "some error";
