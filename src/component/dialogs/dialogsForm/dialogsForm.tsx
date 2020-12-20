@@ -1,9 +1,12 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
-import PropTypes from 'prop-types';
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Textarea} from "../../common/formsControl/formControls";
 import {requiredField} from "../../../utils/validators";
-const DialogsForm = (props) => {
+import {DialogsFormValuesType} from "../dialogs";
+
+
+type PropTypes = {}
+const DialogsForm: React.FC<InjectedFormProps<DialogsFormValuesType, PropTypes> & PropTypes> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <Field
@@ -16,6 +19,6 @@ const DialogsForm = (props) => {
         </form>
     );
 };
-DialogsForm.propTypes = {handleSubmit: PropTypes.func};
-const DialogsFormRedux = reduxForm({form: 'addMessageForm'})(DialogsForm);
-export default DialogsFormRedux;
+
+
+export default reduxForm<DialogsFormValuesType>({form: 'addMessageForm'})(DialogsForm);

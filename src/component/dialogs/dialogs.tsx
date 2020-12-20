@@ -2,17 +2,28 @@ import React from 'react';
 import classes from './dialogs.module.scss';
 import Dialog from './dialogItem/dialog';
 import Message from './message';
-import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {addNewMessage} from "../../redux/dialogsReducer";
+import {actions, InitialStateType} from "../../redux/dialogsReducer";
 import {withAuthRedirect} from "../redirectHOC/redirectHOC";
 import {compose} from "redux";
 import DialogsFormRedux from "./dialogsForm";
+import {AppStateType} from "../../redux/reduxStore";
 
+type PropTypes = MapStateToPropsType & MapDispatchToPropsType
+type MapStateToPropsType = {
+    dialogsData: InitialStateType["dialogs"],
+    messagesData:  InitialStateType["messages"],
+}
+type MapDispatchToPropsType = {
+    addNewMessage: (value: string) => void
+}
+export type DialogsFormValuesType = {
+    newMessageText: string,
+}
 
-const Dialogs = ({dialogsData, messagesData, addNewMessage}) => {
+const Dialogs:React.FC<PropTypes> = ({dialogsData, messagesData, addNewMessage}) => {
 
-    const addMessage = (value) => {
+    const addMessage = (value: DialogsFormValuesType) => {
         const message = value.newMessageText;
         addNewMessage(message);
     };
@@ -38,17 +49,12 @@ const Dialogs = ({dialogsData, messagesData, addNewMessage}) => {
     );
 };
 
-Dialogs.propTypes = {
-    dialogsData: PropTypes.array,
-    messagesData: PropTypes.array,
-    addNewMessage: PropTypes.func,
-};
-
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         dialogsData: state.dialogsPage.dialogs,
         messagesData: state.dialogsPage.messages
     };
 };
 
-export default compose(withAuthRedirect, connect(mapStateToProps, {addNewMessage})) (Dialogs);
+export default compose(withAuthRedirect, connect(mapStateToProps, {...actions})) (Dialogs);
+

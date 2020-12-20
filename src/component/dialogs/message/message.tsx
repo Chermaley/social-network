@@ -1,12 +1,7 @@
 import classes from "./message.module.scss";
 import React from "react";
-import PropTypes from "prop-types";
-
-const Message = ({label}) => {
+type PropTypes = {label: string}
+const Message: React.FC<PropTypes> = ({label}) => {
     return <div className={classes.message}>{label}</div>;
 };
-Message.propTypes = {
-    label: PropTypes.any
-};
-
 export default Message;

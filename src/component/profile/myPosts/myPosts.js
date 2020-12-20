@@ -2,7 +2,7 @@ import React from 'react';
 import Post from './post';
 import classes from './myPosts.module.scss';
 import PropTypes from "prop-types";
-import {addNewPost} from "../../../redux/profileReducer";
+import {actions} from "../../../redux/profileReducer";
 import {connect} from "react-redux";
 import MyPostForm from "./myPostForm";
 
@@ -44,5 +44,5 @@ const mapStateToProps = (state) => {
     };
 };
 
-
+const {addNewPost} = actions;
 export default connect(mapStateToProps, {addNewPost})(MyPosts);

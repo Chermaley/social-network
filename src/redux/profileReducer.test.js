@@ -1,4 +1,4 @@
-import profileReducer, {addNewPost, deletePost} from "./profileReducer";
+import profileReducer, {actions} from "./profileReducer";
 
 const state = {
     posts: [
@@ -14,24 +14,26 @@ const state = {
             likesCount: 2,
             id: 2
         },
-    ]
+    ],
+    profile: null,
+    status: ''
 };
-let action = addNewPost('yey');
+let action = actions.addNewPost('yey');
 let newState = profileReducer(state, action);
 
 it('length of posts should be incremented', () => {
-    expect(newState.posts.length).toBe(3);
+    expect(newState.posts).toHaveLength(3);
 });
 it('text of new post must be "yey"', () => {
     expect(newState.posts[2].text).toBe('yey');
 });
 it('after deleting length of post must be decremented', () =>{
-    let action = deletePost(1);
+    let action = actions.deletePost(1);
     let newState = profileReducer(state, action);
-    expect(newState.posts.length).toBe(1);
+    expect(newState.posts).toHaveLength(1);
 });
 it('after deleting length shouldn,t decremented if id is incorrect', () =>{
-    let action = deletePost(100500);
+    let action = actions.deletePost(100500);
     let newState = profileReducer(state, action);
-    expect(newState.posts.length).toBe(2);
+    expect(newState.posts).toHaveLength(2);
 });

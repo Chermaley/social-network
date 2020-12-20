@@ -1,9 +1,13 @@
 import {NavLink} from "react-router-dom";
 import React from "react";
-import PropTypes from "prop-types";
 import classes from './dialog.module.scss';
 
-const Dialog = ({person, id}) => {
+type PropTypes = {
+    person: string,
+    id: number
+}
+
+const Dialog: React.FC<PropTypes> = ({person, id}) => {
     let path = `/dialogs/${id}`;
     return (
         <div className={classes.dialog + ' ' + classes.active}>
@@ -12,9 +16,5 @@ const Dialog = ({person, id}) => {
     );
 };
 
-Dialog.propTypes = {
-    person: PropTypes.string,
-    id: PropTypes.number,
-};
 
 export default Dialog;
