@@ -1,52 +1,51 @@
 import Profile from "./profile";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../redirectHOC/redirectHOC";
 import {compose} from "redux";
 import {getProfile, getStatus, savePhoto, saveProfileData, updateStatus} from "../../redux/profileReducer";
-import {ProfileType} from "../../types/types";
 import {AppStateType} from "../../redux/reduxStore";
 
-type PropsTypes = {
-    savePhoto: (photo: any) => void,
-    getProfile: (id: number) => void,
-    getStatus: (id: number) => void,
-    saveProfileData: () => void,
-    updateStatus: () => void,
-    profile: ProfileType,
-    match: any,
-    authUserId: number,
-    status: string,
-    history: any
+type PathParamsType = {
+    id: string
 }
+type MapDispatchType = {
+    savePhoto: (photo: any) => void,
+    getProfile: (id: number ) => void,
+    getStatus: (id: number ) => void,
+    saveProfileData: () => Promise<void>,
+    updateStatus: () => void,
+}
+type MapStateProps = ReturnType<typeof mapStateToProps>
 
-class ProfileAPI extends Component<PropsTypes> {
+type PropTypes = MapStateProps & MapDispatchType & RouteComponentProps<PathParamsType>
+
+class ProfileAPI extends Component<PropTypes> {
 
     savePhoto = (photo: any) => {
         const {savePhoto} = this.props;
         savePhoto(photo);
     };
 
-
     refreshProfileData = () => {
         const {getProfile, match, getStatus, authUserId} = this.props;
-        let id = match.params.id;
+        let id: number | null = +match.params.id;
         if (!id) {
             id = authUserId;
             if (!id) {
                 this.props.history.push("/login");
             }
         }
-        getProfile(id);
-        getStatus(id);
+        getProfile(id as number);
+        getStatus(id as number);
     };
 
     componentDidMount() {
         this.refreshProfileData();
     }
 
-    componentDidUpdate(prevProps: PropsTypes) {
+    componentDidUpdate(prevProps: PropTypes) {
         if (prevProps.match.params.id !== this.props.match.params.id) {
             this.refreshProfileData();
         }
@@ -74,7 +73,7 @@ const mapStateToProps = (state: AppStateType) => {
     };
 };
 
-export default compose(
+export default compose<React.ComponentType>(
     withAuthRedirect,
     withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus, savePhoto, saveProfileData}))(ProfileAPI);
 

@@ -1,12 +1,23 @@
 import classes from "./profileInfo.module.scss";
-import React, {useState} from "react";
-import PropTypes from 'prop-types';
+import React, {ChangeEvent, useState} from "react";
+
 import Spinner from "../../common/spinner";
 import userPhoto from '../../../assets/img/avatar.png';
 import ProfileStatusWithHooks from "../profileStatus/profileStatusWithHooks";
-import ProfileDataForm from "../profileDataForm";
+import ProfileDataForm from "./profileDataForm";
+import {ContactsType, ProfileType} from "../../../types/types";
 
-const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
+
+type ProfileInfoPropTypes = {
+    profile: ProfileType | null,
+    status: string,
+    updateStatus: () => void,
+    isOwner: boolean,
+    savePhoto: (photo: File) => void,
+    saveProfile: (formData: ProfileType) => Promise<any>
+}
+
+const ProfileInfo:React.FC<ProfileInfoPropTypes> = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
     const [editMode, changeEditMode] = useState(false);
 
     const toggleEditMode = () => {
@@ -17,31 +28,27 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
         }
     };
 
-    const onPhotoSelected = (e) => {
+    const onPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        if (e.target.files.length === 1) {
+        if (e.target.files?.length === 1) {
             const photo = e.target.files[0];
             savePhoto(photo);
         }
     };
 
 
-    const onFormSubmit =  (formData) => {
+    const onFormSubmit = (formData: ProfileType) => {
         saveProfile(formData).then(
             () => {toggleEditMode();}
         );
-
     };
 
     if (!profile) {
         return <Spinner/>;
     }
 
-    const {photos, contacts} = profile;
+    const {photos} = profile;
 
-    const contactsList = Object.keys(contacts).map((title) => {
-        return <Contact key={title} contactTitle={title} contactValue={contacts[title]}/>;
-    });
 
     return (
         <>
@@ -54,10 +61,8 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
                 {editMode
                     ? <ProfileDataForm initialValues={profile}
                                        profile={profile}
-                                       toggleEditMode={toggleEditMode}
                                        onSubmit={onFormSubmit}/>
-                    : <ProfileData contactsList={contactsList}
-                                   isOwner={isOwner}
+                    : <ProfileData isOwner={isOwner}
                                    profile={profile}
                                    toggleEditMode={toggleEditMode}/>}
             </div>
@@ -65,14 +70,25 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
     );
 };
 
-const Contact = ({contactTitle, contactValue}) => {
+type ContactPropTypes = {
+    contactTitle: string,
+    contactValue: any
+}
+
+const Contact: React.FC<ContactPropTypes> = ({contactTitle, contactValue}) => {
     return (
         <div>{contactTitle} : {contactValue}</div>
     );
 };
 
-const ProfileData = ({profile, toggleEditMode, contactsList, isOwner}) => {
-    const {fullName, aboutMe, lookingForAJob, lookingForAJobDescription} = profile;
+type ProfileDataPropTypes = {
+    profile: ProfileType,
+    toggleEditMode: () => void,
+    isOwner: any
+}
+
+const ProfileData: React.FC<ProfileDataPropTypes> = ({profile, toggleEditMode, isOwner}) => {
+    const {fullName, aboutMe, lookingForAJob, lookingForAJobDescription, contacts} = profile;
     return (
         <div className={classes.descr}>
             data
@@ -81,34 +97,14 @@ const ProfileData = ({profile, toggleEditMode, contactsList, isOwner}) => {
             <div>About me: {aboutMe}</div>
             <div>{lookingForAJob ? "looking for a job" : "job?"}</div>
             <div>Skills: {lookingForAJob ? lookingForAJobDescription : null}</div>
-            <div>Contacts:</div>
-            <div className={classes.contacts}>{contactsList}</div>
+            <div>Contacts: {
+                Object.keys(contacts)
+                    .map((title) => {
+                return <Contact key={title} contactTitle={title} contactValue={contacts[title as keyof ContactsType]}/>;
+            })}
+            </div>
         </div>
     );
-};
-
-
-ProfileData.propTypes = {
-    profile: PropTypes.object,
-    toggleEditMode: PropTypes.func,
-    saveProfile: PropTypes.func,
-    contactsList: PropTypes.array,
-    isOwner: PropTypes.bool
-};
-
-Contact.propTypes = {
-    contactTitle: PropTypes.string,
-    contactValue: PropTypes.string
-};
-
-ProfileInfo.propTypes = {
-    profile: PropTypes.object,
-    photos: PropTypes.object,
-    status: PropTypes.any,
-    updateStatus: PropTypes.func,
-    isOwner: PropTypes.bool,
-    savePhoto: PropTypes.func,
-    saveProfile: PropTypes.any
 };
 
 export default ProfileInfo;

@@ -1,22 +1,30 @@
-import React from 'react';
+import React, {memo} from 'react';
 import Post from './post';
 import classes from './myPosts.module.scss';
-import PropTypes from "prop-types";
 import {actions} from "../../../redux/profileReducer";
 import {connect} from "react-redux";
 import MyPostForm from "./myPostForm";
+import {InitialStateType} from "../../../redux/profileReducer";
+import {AppStateType} from "../../../redux/reduxStore";
 
 
+type PropTypes= {
+    postData: InitialStateType["posts"],
+    addNewPost: (value: string) => void
+}
+export type MyPostsFormValuesType = {
+    postText: string
+}
 
 // eslint-disable-next-line react/display-name
-const MyPosts = React.memo(props => {
+const MyPosts: React.FC<PropTypes> = memo(props => {
     let {postData, addNewPost} = props;
 
     const posts = postData.map(({img, text, id, likesCount}) => {
         return <Post key={id} img={img} text={text} likesCount={likesCount}/>;
     });
 
-    const addPost = (value) => {
+    const addPost = (value: MyPostsFormValuesType) => {
         const post = value.postText;
         addNewPost(post);
     };
@@ -32,15 +40,9 @@ const MyPosts = React.memo(props => {
     );
 });
 
-MyPosts.propTypes = {
-    postData: PropTypes.array,
-    addNewPost: PropTypes.func,
-};
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         postData: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText
     };
 };
 

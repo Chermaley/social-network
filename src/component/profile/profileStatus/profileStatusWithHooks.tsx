@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from "react";
+import {ChangeEvent} from "react";
 
+type PropTypes = {
+    status: string,
+    updateStatus: (value: string) => void
+}
 
-// eslint-disable-next-line react/prop-types
-const ProfileStatusWithHooks = ({status, updateStatus}) => {
+const ProfileStatusWithHooks: React.FC<PropTypes> = ({status, updateStatus}) => {
 
     const [editMode, setEditMode] = useState(false);
     const [value, setValue] = useState(status);
@@ -20,7 +24,7 @@ const ProfileStatusWithHooks = ({status, updateStatus}) => {
         updateStatus(value);
     };
 
-    const onStatusChange = (e) => {
+    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     };
 

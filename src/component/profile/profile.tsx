@@ -1,11 +1,19 @@
 import React from 'react';
 import classes from './profile.module.scss';
 import ProfileInfo from "./profileInfo/profileInfo";
-import PropTypes from 'prop-types';
 import MyPosts from "./myPosts/myPosts";
+import {ProfileType} from "../../types/types";
 
+type PropTypes = {
+    profile: ProfileType | null,
+    status: string,
+    updateStatus: () => void,
+    isOwner: boolean,
+    savePhoto: (file: File) => void,
+    saveProfile: (formData: ProfileType) => Promise<any>
+}
 
-const Profile = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
+const Profile: React.FC<PropTypes> = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
 
     return (
         <div className={classes.profile}>
@@ -14,12 +22,5 @@ const Profile = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile
         </div>
     );
 };
-Profile.propTypes = {
-    profile: PropTypes.object,
-    status: PropTypes.any,
-    updateStatus: PropTypes.func,
-    isOwner: PropTypes.bool,
-    savePhoto: PropTypes.func,
-    saveProfile: PropTypes.any
-};
+
 export default Profile;

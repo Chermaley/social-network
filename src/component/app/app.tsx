@@ -1,4 +1,4 @@
-import React, {Component, Suspense} from 'react';
+import React, {Component, ComponentType, Suspense} from 'react';
 import NavBar from '../nav/nav';
 import {Redirect, Switch, withRouter, Route, HashRouter} from "react-router-dom";
 import './app.scss';
@@ -9,23 +9,26 @@ import UsersAPI from "../users/usersAPI";
 import HeaderAPI from "../header/headerAPI";
 import Login from "../login";
 import {connect, Provider} from "react-redux";
-import PropTypes from "prop-types";
 import {compose} from "redux";
 import {initializeApp} from "../../redux/appReducer";
 import Spinner from "../common/spinner";
-import store from "../../redux/reduxStore";
+import store, {AppStateType} from "../../redux/reduxStore";
+
+
+
+type MapStateToPropsType = ReturnType<typeof mapStateToProps>
+type MapDispatchToProps = {
+    initializeApp: () => void
+}
+type PropTypes = MapStateToPropsType & MapDispatchToProps
 
 const News = React.lazy(() => import('../news'));
 const Music = React.lazy(() => import('../music'));
 
-class App extends Component {
-    static propTypes = {
-        initializeApp: PropTypes.func,
-        initialized: PropTypes.bool
-    };
-    catchAllUnhandledErrors = (promiseRejectionEvent) => {
+class App extends Component<PropTypes> {
+
+    catchAllUnhandledErrors = () => {
         alert('some error occurred');
-        console.error(promiseRejectionEvent);
     };
 
     componentDidMount() {
@@ -48,7 +51,7 @@ class App extends Component {
                     <Suspense fallback={<Spinner/>}>
                         <Switch>
                             <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
-                            <Route path='/profile/:id?' render={() => <ProfileAPI/>}/>
+                            <Route path='/profile/:id?' render={() => <ProfileAPI />}/>
                             <Route path='/dialogs' render={() => <Dialogs/>}/>
                             <Route path='/music' component={Music}/>
                             <Route path='/news' component={News}/>
@@ -64,13 +67,13 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         initialized: state.app.initialized
     };
 };
-let AppContainer = compose(withRouter, connect(mapStateToProps, {initializeApp}))(App);
-const MainApp = () => {
+let AppContainer = compose<ComponentType>(withRouter, connect(mapStateToProps, {initializeApp}))(App);
+const MainApp: React.FC = () => {
     return (
         <HashRouter>
             <Provider store={store}>

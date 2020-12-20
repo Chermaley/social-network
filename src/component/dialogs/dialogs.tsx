@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import classes from './dialogs.module.scss';
 import Dialog from './dialogItem/dialog';
 import Message from './message';
@@ -56,5 +56,5 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     };
 };
 
-export default compose(withAuthRedirect, connect(mapStateToProps, {...actions})) (Dialogs);
+export default compose<ComponentType>(withAuthRedirect, connect(mapStateToProps, {...actions})) (Dialogs);
 
