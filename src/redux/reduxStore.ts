@@ -7,6 +7,7 @@ import authReducer from "./authReducer";
 import thunkMiddleware, {ThunkAction} from "redux-thunk";
 import {reducer as formReducer} from 'redux-form';
 import appReducer from "./appReducer";
+import logger from 'redux-logger';
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
@@ -28,6 +29,6 @@ export type CommonThunkType<A extends Action, R = Promise<void>> = ThunkAction<R
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware, logger)));
 // @ts-ignore
 export default store;

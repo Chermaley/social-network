@@ -18,6 +18,6 @@ export const getIsLoadingStatus = (state: AppStateType) => {
 export const getIsFollowingInProgress = (state: AppStateType) => {
     return state.usersPage.followingInProgress;
 };
-export const getTerm = (state: AppStateType) => {
-    return state.usersPage.term;
+export const getFilter = (state: AppStateType) => {
+    return state.usersPage.filter;
 };

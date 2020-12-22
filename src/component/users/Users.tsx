@@ -5,26 +5,30 @@ import Paginator from "./paginator";
 import Spinner from "../common/spinner";
 import {UserType} from "../../types/types";
 
+import UsersSearchForm from './usersSearchForm';
+import {FilterFormType} from "../../redux/usersReducer";
+
+
 type PropsType = {
     usersData: Array<UserType>,
-    term: string,
     totalUsersCount: number,
     pageSize: number,
     currentPage: number,
-    onChangeTerm: (e: any) => void,
     onPageChanged: (pageNumber: number) => void,
     followingInProgress: Array<number>,
     followUser: (id: number) => void,
     unFollowUser: (id: number) => void,
-    isLoading: boolean
+    isLoading: boolean,
+    onFilterChanged: (data: FilterFormType) => void
 }
 
 const Users: React.FC<PropsType> = (props) => {
     const {
-        usersData, term, totalUsersCount,
-        pageSize, currentPage, onChangeTerm,
+        usersData, totalUsersCount,
+        pageSize, currentPage,
         onPageChanged, followingInProgress,
-        followUser, unFollowUser, isLoading
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        followUser, unFollowUser, isLoading, onFilterChanged
     } = props;
 
     const users = usersData.map(({id, name, status, followed, photos}) => {
@@ -42,13 +46,12 @@ const Users: React.FC<PropsType> = (props) => {
 
     return (
         <div>
+            <UsersSearchForm onSubmit={onFilterChanged}/>
             <Paginator totalItemsCount={totalUsersCount}
                        pageSize={pageSize}
                        currentPage={currentPage}
                        onPageChanged={onPageChanged}
             />
-
-            <textarea onChange={onChangeTerm} value={term}/>
             {isLoading ? <Spinner/> : users}
         </div>
     );
