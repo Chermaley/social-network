@@ -1,6 +1,10 @@
+/* eslint-disable */
 import React from "react";
 import classes from './user.module.scss';
 import {NavLink} from "react-router-dom";
+
+import plus from './Plus-Icon-PNG.png';
+import check from './check.png';
 
 type PropsType = {
     fullName: string,
@@ -15,26 +19,25 @@ type PropsType = {
 const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
                                        photoUrl, status,
                                       id: userId, followingInProgress}) => {
-
-    const followUnfollow = followStatus ? 'unfollow' : 'follow';
     return (
         <div className={classes.user}>
-            <span>
+            <div className={classes.user}>
                 <div>
                     <NavLink to={`/profile/${userId}`}>
-                        <img src={photoUrl} alt='user photo' className={classes.photo}/>
+                        <img src={photoUrl} alt='user photo' className={classes.user_photo}/>
                     </NavLink>
                 </div>
                 <div>
-                    <button disabled={followingInProgress.some(id => id === userId)} onClick={onFollowClick}>{followUnfollow}</button>
+                    <div className={classes.user_name}>{fullName}</div><div className={classes.user_status}>{status}</div>
                 </div>
-            </span>
-            <span>
-                <span>
-                    <div>{fullName}</div><div>{status}</div>
-                </span>
-            </span>
-
+                <div>
+                    <button className={classes.subscribe}
+                            disabled={followingInProgress.some(id => id === userId)}
+                            onClick={onFollowClick}>
+                            <img src={!followStatus ? plus : check} alt={'follow'}/>
+                            </button>
+                </div>
+            </div>
         </div>
     );
 };

@@ -4,7 +4,7 @@ import userPhoto from '../../assets/img/avatar.png';
 import Paginator from "./paginator";
 import Spinner from "../common/spinner";
 // import UsersSearchForm from './usersSearchForm';
-import {actions, requestUsers} from "../../redux/usersReducer";
+import {actions, requestUsers, followUser, unFollowUser} from "../../redux/usersReducer";
 import classes from "./users.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -37,22 +37,18 @@ export const Users: React.FC = () => {
         dispatch(requestUsers(pageNumber, pageSize));
     };
 
-    // const onFilterChanged = (filter: FilterFormType) => {
-    //     dispatch(actions.setFilter(filter));
-    //     dispatch(requestUsers(1, pageSize));
-    // };
 
-    const followUser = (id: number) => {
+    const followUserClick = (id: number) => {
       dispatch(followUser(id));
     };
 
-    const unFollowUser = (id: number) => {
+    const unFollowUserClick = (id: number) => {
         dispatch(unFollowUser(id));
     };
 
     const users = usersData.map(({id, name, status, followed, photos}) => {
         return <User
-            onFollowClick={() => followed ? unFollowUser(id) : followUser(id)}
+            onFollowClick={() => followed ? unFollowUserClick(id) : followUserClick(id)}
             key={id}
             photoUrl={photos.small ? photos.small : userPhoto}
             followStatus={followed}
@@ -65,13 +61,13 @@ export const Users: React.FC = () => {
     return (
         <div className={classes.users}>
             <div className={classes.usersContainer}>
+                {isLoading ? <Spinner/> : users}
                 {/*<UsersSearchForm onSubmit={onFilterChanged}/>*/}
                 <Paginator totalItemsCount={totalUsersCount}
                            pageSize={pageSize}
                            currentPage={currentPage}
                            onPageChanged={onPageChanged}
                 />
-                {isLoading ? <Spinner/> : users}
             </div>
 
         </div>

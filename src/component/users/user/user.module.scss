@@ -1,12 +1,34 @@
 .user{
-  display: flex;
-  flex-direction: row;
+  width: 610px;
+  display: grid;
+  grid-template-columns: 100px  430px 10px;
+  gap: 20px;
   align-items: center;
+  &_photo{
+    object-fit: cover;
+    width: 105px;
+    height: 105px;
+    border-radius: 100%;
+  }
+  &_name{
+    font-family: "Roboto" ;
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 400;
+    color: #000000;
+  }
+  &_status{
+    font-family: "Roboto" ;
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 
-.photo{
-  object-fit: cover;
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
+.subscribe{
+  background-color: #fff;
+  border: none;
+  img{
+    width: 20px;
+    height: 20px;
+  }
 }
