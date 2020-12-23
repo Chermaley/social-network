@@ -1,16 +1,107 @@
 .header {
     display: flex;
-    width: 100%;
     background-color: #800000;
     grid-area: header;
-    h1{
-        user-select: none;
-        margin: 0 auto;
-        font-size: 77.8px;
-        font-weight: 400;
-        color: #ffffff;
-        text-align: center;
+}
+
+.content{
+  width: 100%;
+  display: flex;
+  padding: 17.5px 45px 0 45px;
+  align-items: center;
+
+  form{
+    display: flex;
+    align-items: center;
+  }
+  input{
+    padding: 10px;
+    font-size: 12px;
+    width: 360px;
+    height: 30px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    margin-right: 2px;
+  }
+  select{
+    font-size: 12px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: none;
+    height: 30px;
+    margin-right: 5px;
+  }
+
+}
+.submit{
+  background-color: transparent;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-image: url("magnifying_glass_267.png") ;
+  margin: 0 60px 0 10px;
+}
+
+.logo{
+  font-family: 'Titillium Web', sans-serif;
+  user-select: none;
+  font-weight: 400;
+  text-align: center;
+  color: #fff;
+  &_auth{
+    color: #fff;
+    margin-bottom: 11px;
+    margin-right: 80px;
+    font-size: 50.8px;
+  }
+  &_noAuth{
+    margin: 0 auto;
+    font-size: 65.8px;
+  }
+}
+
+.menu{
+  display: flex;
+  list-style: none;
+  li{
+    margin-left: 30px;
+    a{
+      display: inline-block;
+      position: relative;
+      font-family: BebasNeue, sans-serif;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 400;
+      color: #ffffff;
+      text-decoration: none;
+      &.active{
+        &:after{
+          bottom: -28px;
+          display: block;
+          content: "";
+          background-color: #fff;
+          height: 4px;
+          width: 100%;
+          left: 50%;
+          position: absolute;
+          transform: translateX(-50%);
+        }
+      }
     }
+    &:first-child{
+      margin-left: 0;
+    }
+  }
+  .settings{
+    margin-top: -1.8px;
+    margin-left: 22px;
+    width: 22px;
+    height: 22px;
+    background: url("settings_24.png") 0 0 no-repeat;
+  }
 }
 
 .loginBlock{

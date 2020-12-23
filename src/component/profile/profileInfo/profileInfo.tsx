@@ -95,7 +95,7 @@ const ProfileData: React.FC<ProfileDataPropTypes> = ({profile, toggleEditMode, i
             {isOwner ? <button onClick={toggleEditMode}>edit</button> : null}
             <div>FullName: {fullName}</div>
             <div>About me: {aboutMe}</div>
-            <div>{lookingForAJob ? "looking for a job" : "job?"}</div>
+            <div>{lookingForAJob ? "looking for a job" : "lol job?"}</div>
             <div>Skills: {lookingForAJob ? lookingForAJobDescription : null}</div>
             <div>Contacts: {
                 Object.keys(contacts)

@@ -1,3 +1,9 @@
+.user{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .photo{
   object-fit: cover;
   width: 100px;

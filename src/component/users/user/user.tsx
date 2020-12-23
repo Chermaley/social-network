@@ -6,7 +6,6 @@ type PropsType = {
     fullName: string,
     onFollowClick: () => void,
     followStatus: boolean,
-    location: string,
     photoUrl: string,
     status: string,
     id: number,
@@ -14,12 +13,12 @@ type PropsType = {
 }
 
 const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
-                                      location, photoUrl, status,
+                                       photoUrl, status,
                                       id: userId, followingInProgress}) => {
 
     const followUnfollow = followStatus ? 'unfollow' : 'follow';
     return (
-        <div>
+        <div className={classes.user}>
             <span>
                 <div>
                     <NavLink to={`/profile/${userId}`}>
@@ -33,9 +32,6 @@ const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
             <span>
                 <span>
                     <div>{fullName}</div><div>{status}</div>
-                </span>
-                <span>
-                    <div>{location}</div>
                 </span>
             </span>
 
