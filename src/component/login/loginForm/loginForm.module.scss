@@ -1,0 +1,58 @@
+.form{
+  margin-top: 156px;
+  display: flex;
+  flex-direction: column;
+  &:last-child{
+    justify-content: flex-end;
+  }
+}
+.input{
+  div{
+    font-size: 16px;
+    font-weight: 400;
+
+  }
+  margin-top: 10px;
+  input{
+    font-family: 'Roboto';
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 12px;
+    margin-top: 9px;
+    width: 370px;
+    height: 49px;
+    background-color: #e1e1e1;
+    border: none;
+    border-radius: 10px;
+  }
+}
+.checkbox{
+  margin-top: 23px;
+  display: flex;
+  align-items: center;
+  .remember{
+    margin-left: 9px;
+    font-size: 14px;
+    color: #959595;
+  }
+  input{
+    width: 18px;
+    height: 18px;
+  }
+}
+.button{
+  margin-top: 26px;
+  display: flex;
+  justify-content: flex-end;
+  button{
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 400;
+    color: #ffffff;
+    width: 169px;
+    height: 49px;
+    background-color: #800000;
+    border: none;
+    border-radius: 10px;
+  }
+}

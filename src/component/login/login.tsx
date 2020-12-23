@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {reset} from "redux-form";
 import {AppStateType} from "../../redux/reduxStore";
+import classes from './login.module.scss';
 
 type MapStateToPropsType = {
     captcha: string | null,
@@ -35,9 +36,16 @@ const Login: React.FC<LoginPropsType> = ({login, isAuth, captcha}) => {
     if (isAuth) return <Redirect to={'/profile'}/>;
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className={classes.login}>
             <LoginReduxForm captcha={captcha} onSubmit={onSubmit}/>
+            <div className={classes.descr}>
+                <p>Welcome to the mashroom</p>
+                <ul>
+                    <li>Communication</li>
+                    <li>News</li>
+                    <li>Self-expression</li>
+                </ul>
+            </div>
         </div>
     );
 };

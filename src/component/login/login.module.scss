@@ -1,0 +1,39 @@
+.login{
+  display: flex;
+  width: 971px;
+  height: 100%;
+  margin: 0 auto;
+  justify-content: space-around;
+  background-color: #fff;
+}
+.descr{
+  margin-top: 150px;
+  p{
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+  ul{
+    margin-top: 30px;
+    list-style: none;
+    li{
+      position: relative;
+      margin-top: 27px;
+      font-family: Roboto, serif;
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 400;
+      &::before{
+        left: -15px;
+        top: 5px;
+        position: absolute;
+        content: '';
+        width: 10px;
+        height: 10px;
+        background-color: #800000;
+        border-radius: 50%;
+      }
+    }
+  }
+}

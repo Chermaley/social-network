@@ -14,7 +14,7 @@ const UsersSearchForm: React.FC<UsersSearchFormPropTypes> = ({onSubmit}) => {
     const onButtonClick = (values: FormType) => {
         const filter = {
             term: values.term,
-            friend: values.friend === 'null' ? null : values.friend === 'false' ? false : true
+            friend: values.friend === 'null' ? null : values.friend !== 'false'
         };
         onSubmit(filter);
 

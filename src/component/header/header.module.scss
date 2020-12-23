@@ -1,9 +1,15 @@
 .header {
+    display: flex;
     width: 100%;
-    background-color: tomato;
+    background-color: #800000;
     grid-area: header;
-    img{
-        height: 60px;
+    h1{
+        user-select: none;
+        margin: 0 auto;
+        font-size: 77.8px;
+        font-weight: 400;
+        color: #ffffff;
+        text-align: center;
     }
 }
 

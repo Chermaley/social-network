@@ -16,6 +16,7 @@ import store, {AppStateType} from "../../redux/reduxStore";
 
 
 
+
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchToProps = {
     initializeApp: () => void
@@ -46,7 +47,7 @@ class App extends Component<PropTypes> {
         return (
             <div className='app'>
                 <HeaderAPI/>
-                <NavBar/>
+                {this.props.isAuth ? <NavBar/> : null}
                 <div className='app-wrapper-content'>
                     <Suspense fallback={<Spinner/>}>
                         <Switch>
@@ -55,7 +56,7 @@ class App extends Component<PropTypes> {
                             <Route path='/dialogs' render={() => <Dialogs/>}/>
                             <Route path='/music' component={Music}/>
                             <Route path='/news' component={News}/>
-                            <Route path='/users' render={() => <UsersAPI/>}/>
+                            <Route path='/users' component={UsersAPI}/>
                             <Route path='/settings' component={Settings}/>
                             <Route path='/login' component={Login}/>
                             <Route path='*' render={() => <div>404 PAGE NOT FOUND :(</div>}/>
@@ -69,7 +70,8 @@ class App extends Component<PropTypes> {
 
 const mapStateToProps = (state: AppStateType) => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        isAuth: state.auth.isAuth
     };
 };
 let AppContainer = compose<ComponentType>(withRouter, connect(mapStateToProps, {initializeApp}))(App);
