@@ -1,11 +1,39 @@
-.dialog{
-  a{
-    color: black;
-    font-size: 16px;
-    display: block;
-    text-decoration: none;
+.dialog {
+  display: flex;
+  align-items: center;
+  margin-top: 36px;
+  position: relative;
+  &:first-child {
+    margin-top: 0;
   }
-  &.active{
-    color: red;
+  &.active {
+    &::before{
+      left: -12px;
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 8px;
+      background-color: #800000;
+    }
+  }
+  text-decoration: none;
+
+}
+
+.name {
+  text-decoration: none;
+  margin-left: 10px;
+  color: black;
+  font-weight: 400;
+  font-size: 19px;
+}
+
+.photo {
+  width: 75px;
+  height: 75px;
+
+  img {
+    width: 100%;
+    border-radius: 50%;
   }
 }

@@ -33,19 +33,19 @@ const Dialogs:React.FC<PropTypes> = ({dialogsData, messagesData, addNewMessage})
     });
 
     const messages = messagesData.map(({message,id}) => {
-        return <Message key={id} label={message}/>;
+        return <Message id={id} key={id} label={message}/>;
     });
 
     return (
-        <div className={classes.dialogs}>
-            <div className={classes.dialogsItems}>
-                {dialogs}
+            <div className={classes.dialogs}>
+                <div className={classes.dialogsItems}>
+                    {dialogs}
+                </div>
+                <div className={classes.messagesContainer}>
+                    <div className={classes.messages}>{messages}</div>
+                    <DialogsFormRedux onSubmit={addMessage}/>
+                </div>
             </div>
-            <div className={classes.messages}>
-                <div>{messages}</div>
-                <DialogsFormRedux onSubmit={addMessage}/>
-            </div>
-        </div>
     );
 };
 

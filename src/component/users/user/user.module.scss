@@ -4,10 +4,14 @@
   grid-template-columns: 100px  430px 10px;
   gap: 20px;
   align-items: center;
+  margin: 8px auto;
+  &:first-child{
+    margin-top: 0;
+  }
   &_photo{
     object-fit: cover;
-    width: 105px;
-    height: 105px;
+    width: 55px;
+    height: 55px;
     border-radius: 100%;
   }
   &_name{
@@ -18,6 +22,8 @@
     color: #000000;
   }
   &_status{
+    word-break: break-all;
+    max-width: 430px;
     font-family: "Roboto" ;
     font-size: 14px;
     font-weight: 400;

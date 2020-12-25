@@ -24,7 +24,6 @@ export const Users: React.FC = () => {
     const isLoading = useSelector(getIsLoadingStatus);
     const followingInProgress = useSelector(getIsFollowingInProgress);
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(requestUsers(currentPage, pageSize));
         return () => {
@@ -39,7 +38,7 @@ export const Users: React.FC = () => {
 
 
     const followUserClick = (id: number) => {
-      dispatch(followUser(id));
+        dispatch(followUser(id));
     };
 
     const unFollowUserClick = (id: number) => {
@@ -58,17 +57,30 @@ export const Users: React.FC = () => {
             followingInProgress={followingInProgress}/>;
     });
 
+    const usersContent = isLoading ? <Spinner/> : users;
+    if (usersData.length === 0 && !isLoading) {
+        return <div className={classes.users}>
+            <div className={classes.notFound}>
+                <img src="http://vkclub.su/_data/stickers/gribson/sticker_vk_gribson_019.png" alt="oops"/>
+                <p>Sorry users not found</p>
+            </div>
+        </div>
+    }
     return (
         <div className={classes.users}>
-            <div className={classes.usersContainer}>
-                {isLoading ? <Spinner/> : users}
-                {/*<UsersSearchForm onSubmit={onFilterChanged}/>*/}
-                <Paginator totalItemsCount={totalUsersCount}
-                           pageSize={pageSize}
-                           currentPage={currentPage}
-                           onPageChanged={onPageChanged}
-                />
-            </div>
+            <>
+                <div className={classes.usersContainer}>
+                    {usersContent}
+                </div>
+                <div className={classes.paginator}>
+                    <Paginator
+                        totalItemsCount={totalUsersCount}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        onPageChanged={onPageChanged}
+                    />
+                </div>
+            </>
 
         </div>
     );

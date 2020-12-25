@@ -1,22 +1,10 @@
 import React from "react";
 import LoginReduxForm from "./loginForm";
-import {login} from "../../redux/authReducer";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {reset} from "redux-form";
-import {AppStateType} from "../../redux/reduxStore";
 import classes from './login.module.scss';
-
-type MapStateToPropsType = {
-    captcha: string | null,
-    isAuth: boolean
-}
-
-type MapDispatchToPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
-}
-
-type LoginPropsType = MapStateToPropsType & MapDispatchToPropsType
+import {getCaptcha, getIsAuth} from "../../redux/authSelectors";
+import {login} from "../../redux/authReducer";
 
 export type LoginFormValuesType = {
     email: string,
@@ -25,13 +13,18 @@ export type LoginFormValuesType = {
     captcha: string
 }
 
-const Login: React.FC<LoginPropsType> = ({login, isAuth, captcha}) => {
+export const Login: React.FC = () => {
 
-    const onSubmit = (formData: LoginFormValuesType, dispatch: any) => {
-        dispatch(reset("login"));
+    const captcha = useSelector(getCaptcha);
+    const isAuth = useSelector(getIsAuth);
+    const dispatch = useDispatch();
+
+
+    const onSubmit = (formData: LoginFormValuesType) => {
         const {email, password, rememberMe, captcha} = formData;
-        login(email, password, rememberMe, captcha);
+        dispatch(login(email, password, rememberMe, captcha));
     };
+
 
     if (isAuth) return <Redirect to={'/profile'}/>;
 
@@ -49,10 +42,5 @@ const Login: React.FC<LoginPropsType> = ({login, isAuth, captcha}) => {
         </div>
     );
 };
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
-    return {
-        isAuth: state.auth.isAuth,
-        captcha: state.auth.captcha
-    };
-};
-export default connect(mapStateToProps ,{login})(Login);
+
+

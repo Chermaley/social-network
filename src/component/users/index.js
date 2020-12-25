@@ -1,2 +1,2 @@
-import Users from "./usersAPI";
+import {Users} from "./Users";
 export default Users;

@@ -5,7 +5,7 @@ import './app.scss';
 import Settings from "../settings";
 import Dialogs from "../dialogs";
 import ProfileAPI from "../profile/profileAPI";
-import {UsersPage} from "../users/usersAPI";
+import UsersPage from "../users";
 import HeaderAPI from "../header/headerAPI";
 import Login from "../login";
 import {connect, Provider} from "react-redux";
@@ -45,8 +45,10 @@ class App extends Component<PropTypes> {
 
     render() {
         if (!this.props.initialized) return <Spinner/>;
+        if (!this.props.isAuth) return <Login/>;
         return (
-            <div className='app'>
+            <>
+            <div className='app _container'>
                     <HeaderAPI/>
                     {this.props.isAuth ? <NavBar/> : null}
                     <div className='app-wrapper-content'>
@@ -65,6 +67,8 @@ class App extends Component<PropTypes> {
                         </Suspense>
                     </div>
             </div>
+
+                </>
         );
     }
 }

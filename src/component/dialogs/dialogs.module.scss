@@ -1,12 +1,24 @@
 .dialogs{
+  position: relative;
+  width: 880px;
   display: grid;
-  margin-top: 20px;
-  grid-template-columns: 2fr 10fr;
+  height: 100%;
+  padding-top: 50px;
+  margin: 0 auto;
+  grid-template-columns: 1fr 2fr;
 }
 .dialogsItems{
-
+  padding: 17px;
+  background-color: #fff;
 }
 
+.messagesContainer{
+  overflow: auto;
+  background-color: transparent;
+}
 .messages{
-  background-color: #fff;
+  padding: 17px 50px;
+  background-color: #e1e1e1;
+  display: flex;
+  flex-direction: column;
 }

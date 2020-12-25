@@ -11,10 +11,12 @@
   align-items: center;
 
   form{
+    font-family: "Roboto", serif;
     display: flex;
     align-items: center;
   }
   input{
+    font-family: "Roboto", serif;
     padding: 10px;
     font-size: 12px;
     width: 360px;
@@ -22,9 +24,10 @@
     background-color: #ffffff;
     border: none;
     border-radius: 10px;
-    margin-right: 2px;
+    margin-right: 3px;
   }
   select{
+    font-family: "Roboto", serif;
     font-size: 12px;
     box-sizing: border-box;
     border-radius: 10px;
@@ -46,13 +49,12 @@
 }
 
 .logo{
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
   user-select: none;
   font-weight: 400;
   text-align: center;
   color: #fff;
   &_auth{
-    color: #fff;
     margin-bottom: 11px;
     margin-right: 80px;
     font-size: 50.8px;

@@ -6,11 +6,10 @@
     box-sizing: border-box;
 }
 .app{
-    width: 100%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 10fr;
-    grid-template-rows: 100px minmax(calc(100vh - 100px), 100%);
+    grid-template-rows:100px minmax(calc(100vh - 100px), 100%);
+    grid-template-columns: 400px 600px;
     grid-template-areas:
     "header header header"
     "content content nav";

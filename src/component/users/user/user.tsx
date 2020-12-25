@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import React from "react";
 import classes from './user.module.scss';
 import {NavLink} from "react-router-dom";

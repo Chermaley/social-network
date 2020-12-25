@@ -1,0 +1,42 @@
+.wrapper {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  background-color: #fff;
+  bottom: 0;
+  z-index: 1;
+  padding: 10px 0;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+
+  input {
+    padding: 10px;
+    width: 500px;
+    height: 40px;
+    background-color: #fefdfd;
+    border: 1px solid #000000;
+    border-radius: 4px;
+  }
+
+  button {
+    margin-left: 10px;
+    border: none;
+    background: url("send.png");
+    width: 25px;
+    height: 33px;
+  }
+}
+
+.photo {
+  margin-right: 20px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+  }
+
+}

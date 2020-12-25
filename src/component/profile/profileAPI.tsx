@@ -2,9 +2,8 @@ import Profile from "./profile";
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {withAuthRedirect} from "../redirectHOC/redirectHOC";
 import {compose} from "redux";
-import {getProfile, getStatus, savePhoto, saveProfileData, updateStatus} from "../../redux/profileReducer";
+import {actions, getProfile, getStatus, savePhoto, saveProfileData, updateStatus} from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/reduxStore";
 
 type PathParamsType = {
@@ -16,6 +15,7 @@ type MapDispatchType = {
     getStatus: (id: number ) => void,
     saveProfileData: () => Promise<void>,
     updateStatus: () => void,
+    onProfilePage: (bool: boolean) => void
 }
 type MapStateProps = ReturnType<typeof mapStateToProps>
 
@@ -42,6 +42,8 @@ class ProfileAPI extends Component<PropTypes> {
     };
 
     componentDidMount() {
+        const {onProfilePage} = this.props;
+        onProfilePage(true);
         this.refreshProfileData();
     }
 
@@ -49,6 +51,10 @@ class ProfileAPI extends Component<PropTypes> {
         if (prevProps.match.params.id !== this.props.match.params.id) {
             this.refreshProfileData();
         }
+    }
+
+    componentWillUnmount(): void {
+        onProfilePage(false);
     }
 
     render() {
@@ -73,7 +79,8 @@ const mapStateToProps = (state: AppStateType) => {
     };
 };
 
+const {onProfilePage} = actions;
+
 export default compose<React.ComponentType>(
-    withAuthRedirect,
-    withRouter, connect(mapStateToProps, {getProfile, getStatus, updateStatus, savePhoto, saveProfileData}))(ProfileAPI);
+    withRouter, connect(mapStateToProps, {onProfilePage, getProfile, getStatus, updateStatus, savePhoto, saveProfileData}))(ProfileAPI);
 

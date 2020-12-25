@@ -14,7 +14,8 @@ const initialState = {
         },
     ] as Array<PostType>,
     profile: null as ProfileType | null,
-    status: ''
+    status: '',
+    onProfilePage: false
 };
 
 const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -56,6 +57,11 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
                 ...state,
                 profile: {...state.profile, ...action.profile}
             };
+        case "PROFILE/ON_PROFILE_PAGE":
+            return {
+                ...state,
+                onProfilePage: action.bool
+            };
         default:
             return state;
     }
@@ -73,7 +79,8 @@ export const actions = {
     saveProfileDataSuccess : (profile: ProfileType) => ({
         type: 'PROFILE/SAVE_PROFILE_DATA_SUCCESS',
         profile
-    } as const)
+    } as const),
+    onProfilePage: (bool: boolean) => ({type: 'PROFILE/ON_PROFILE_PAGE', bool}) as const
 };
 
 export const getProfile = (id: number ): ThunkType => async (dispatch) => {

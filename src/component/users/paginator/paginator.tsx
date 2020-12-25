@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import styles from "./paginator.module.scss";
 import cn from "classnames";
-
+import next from './next.svg';
+import prev from './prev.svg';
 type PropsType = {
     totalItemsCount: number,
     pageSize: number,
@@ -10,8 +11,10 @@ type PropsType = {
     portionSize?: number
 }
 
-let Paginator: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage
-                                                    , onPageChanged, portionSize = 10}) => {
+let Paginator: React.FC<PropsType> = ({
+                                          totalItemsCount, pageSize, currentPage
+                                          , onPageChanged, portionSize = 10
+                                      }) => {
 
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
 
@@ -25,12 +28,15 @@ let Paginator: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     let rightPortionPageNumber = portionNumber * portionSize;
 
-
-    return <div className={styles.paginator}>
+    if (pagesCount < 2) {
+        return null;
+    }
+    return (
+        <div className={styles.paginator}>
         {portionNumber > 1 &&
-        <button onClick={() => {
+        <span className={styles.navBtn + ' ' + styles.left} onClick={() => {
             setPortionNumber(portionNumber - 1);
-        }}>PREV</button>}
+        }}><img src={prev} alt="next"/></span>}
 
         {pages
             .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
@@ -44,12 +50,11 @@ let Paginator: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage
                              }}>{p}</span>;
             })}
         {portionCount > portionNumber &&
-        <button onClick={() => {
+        <span className={styles.navBtn + ' ' + styles.right} onClick={() => {
             setPortionNumber(portionNumber + 1);
-        }}>NEXT</button>}
-
-
-    </div>;
+        }}><img src={next} alt="next"/></span>}
+    </div>
+    );
 };
 
 export default Paginator;

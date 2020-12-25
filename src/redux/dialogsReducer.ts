@@ -10,8 +10,7 @@ type DialogType = {
 }
 const initialState = {
         messages: [
-            {id: 1, message:'hey'},
-            {id: 2, message:'lol'}
+            {id: 2, message:'pteurvoluptatem accusantium doloremque laudantium.'},
         ] as Array<MessagesType>,
         dialogs: [
             {person: 'Andrey', id: 1},

@@ -1,8 +1,30 @@
-.users{
-  display: flex;
+.users {
+  height: 100%;
   margin: 0 auto;
   width: 800px;
   background-color: #fff;
-  padding-top: 40px;
+  padding-top: 25px;
   justify-content: center;
+  position: relative;
+}
+
+.paginator {
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  bottom: 0;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  p {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 24px;
+  }
+  img {
+    margin: 0 auto;
+  }
+
 }
