@@ -1,31 +1,27 @@
-import React, {ComponentType} from 'react';
+import React from 'react';
 import classes from './dialogs.module.scss';
 import Dialog from './dialogItem/dialog';
 import Message from './message';
-import {connect} from "react-redux";
-import {actions, InitialStateType} from "../../redux/dialogsReducer";
-import {withAuthRedirect} from "../redirectHOC/redirectHOC";
-import {compose} from "redux";
-import DialogsFormRedux from "./dialogsForm";
-import {AppStateType} from "../../redux/reduxStore";
+import {useDispatch, useSelector} from "react-redux";
+import {actions} from "../../redux/dialogsReducer";
 
-type PropTypes = MapStateToPropsType & MapDispatchToPropsType
-type MapStateToPropsType = {
-    dialogsData: InitialStateType["dialogs"],
-    messagesData:  InitialStateType["messages"],
-}
-type MapDispatchToPropsType = {
-    addNewMessage: (value: string) => void
-}
+import DialogsFormRedux from "./dialogsForm";
+
+import {getDialogs, getMessages} from "../../redux/dialogsSelector";
+
 export type DialogsFormValuesType = {
     newMessageText: string,
 }
 
-const Dialogs:React.FC<PropTypes> = ({dialogsData, messagesData, addNewMessage}) => {
+const Dialogs:React.FC = () => {
 
+    const dialogsData = useSelector(getDialogs);
+    const messagesData = useSelector(getMessages);
+    const dispatch = useDispatch();
     const addMessage = (value: DialogsFormValuesType) => {
         const message = value.newMessageText;
-        addNewMessage(message);
+        dispatch(actions.addNewMessage(message));
+
     };
 
     const dialogs = dialogsData.map(({id, person}) => {
@@ -49,12 +45,7 @@ const Dialogs:React.FC<PropTypes> = ({dialogsData, messagesData, addNewMessage})
     );
 };
 
-let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
-    return {
-        dialogsData: state.dialogsPage.dialogs,
-        messagesData: state.dialogsPage.messages
-    };
-};
 
-export default compose<ComponentType>(withAuthRedirect, connect(mapStateToProps, {...actions})) (Dialogs);
+
+export default Dialogs;
 

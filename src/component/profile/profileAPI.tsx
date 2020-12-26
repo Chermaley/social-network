@@ -20,7 +20,6 @@ type MapDispatchType = {
 type MapStateProps = ReturnType<typeof mapStateToProps>
 
 type PropTypes = MapStateProps & MapDispatchType & RouteComponentProps<PathParamsType>
-
 class ProfileAPI extends Component<PropTypes> {
 
     savePhoto = (photo: any) => {
@@ -70,7 +69,6 @@ class ProfileAPI extends Component<PropTypes> {
         );
     }
 }
-
 const mapStateToProps = (state: AppStateType) => {
     return {
         profile: state.profilePage.profile,

@@ -1,50 +1,34 @@
+
 import React from 'react';
 import Header from './header';
-import {connect} from 'react-redux';
-import {logout} from "../../redux/authReducer";
-import {AppStateType} from "../../redux/reduxStore";
+import {useDispatch, useSelector} from 'react-redux';
 import {actions, FilterFormType, requestUsers} from "../../redux/usersReducer";
-import {withRouter} from 'react-router-dom';
-
-type MapDispatchType = {
-    logout: () => void,
-    setFilter: (filter: FilterFormType) => void,
-    requestUsers: (pageSize: number, currentPage: number) => void,
-}
-type PathParamsType = {
-    location: any,
-    history: any
-}
-
-type MapStateProps = ReturnType<typeof mapStateToProps>
-type PropTypes = MapStateProps & MapDispatchType & PathParamsType
+import {getPageSize} from "../../redux/userSelectors";
+import {useHistory, useLocation} from 'react-router-dom';
 
 
-const HeaderAPI: React.FC<PropTypes> = (props) => {
-    const {isAuth, login, logout, pageSize, setFilter, requestUsers} = props;
+const HeaderAPI: React.FC = (props) => {
+    const dispatch = useDispatch();
+    const pageSize = useSelector(getPageSize);
+    const history = useHistory();
+    const location = useLocation();
+
+
     const onFilterChanged = (filter: FilterFormType) => {
-        setFilter(filter);
-        if(props.location.pathname !== '/users') {
-            props.history.push('/users');
+        if(location.pathname !== '/users' ) {
+            history.push('/users');
         }
-        requestUsers(1, pageSize);
+
+        dispatch(actions.setCurrentPage(1));
+        dispatch(actions.setFilter(filter));
+
+        dispatch(requestUsers(1, pageSize));
     };
     return (
-        <Header {...props} onSearchSubmit={onFilterChanged} logout={logout} isAuth={isAuth} login={login}/>
+        <Header {...props} onSearchSubmit={onFilterChanged}/>
     );
 };
 
-const mapStateToProps = (state: AppStateType) => {
-    return {
-        isAuth: state.auth.isAuth,
-        login: state.auth.login,
-        pageSize: state.usersPage.pageSize
-    };
-};
-
-const {setFilter} = actions;
-
-
-export default withRouter(connect<MapStateProps, MapDispatchType, {}, AppStateType>(mapStateToProps, {logout, requestUsers, setFilter})(HeaderAPI));
+export default HeaderAPI;
 
 

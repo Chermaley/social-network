@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './nav.module.scss';
-import {connect, useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 import Spinner from "../common/spinner/spinner";
 import {getProfileForSideBar} from "../../redux/sidebarReducer";
@@ -37,4 +37,4 @@ const NavBar = () => {
 
 };
 
-export default connect()(NavBar);
+export default NavBar;
