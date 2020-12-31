@@ -56,7 +56,7 @@ class App extends Component<PropTypes> {
                             <Switch>
                                 <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
                                 <Route path='/profile/:id?' render={() => <ProfileAPI />}/>
-                                <Route path='/dialogs' render={() => <Dialogs/>}/>
+                                <Route path='/dialogs/:id?' render={() => <Dialogs/>}/>
                                 <Route path='/music' component={Music}/>
                                 <Route path='/news' component={News}/>
                                 <Route path='/users' component={UsersPage}/>

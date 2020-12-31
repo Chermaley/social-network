@@ -11,13 +11,15 @@
   align-items: center;
 
   form{
+    margin: 0 60px 0 0;
+    position: relative;
     font-family: "Roboto", serif;
     display: flex;
     align-items: center;
   }
   input{
     font-family: "Roboto", serif;
-    padding: 10px;
+    padding: 10px 40px 10px 10px;
     font-size: 12px;
     width: 360px;
     height: 30px;
@@ -39,13 +41,14 @@
 
 }
 .submit{
+  position: absolute;
+  right: 0;
   background-color: transparent;
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border: none;
-  background-image: url("magnifying_glass_267.png") ;
-  margin: 0 60px 0 10px;
+  background-image: url("magGlass.svg") ;
+  margin: 0 10px 0 0;
 }
 
 .logo{

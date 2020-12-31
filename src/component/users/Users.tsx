@@ -17,6 +17,7 @@ import {
 } from "../../redux/userSelectors";
 import {useHistory} from 'react-router-dom';
 import * as queryString from "querystring";
+import {startDialog} from "../../redux/dialogsReducer";
 
 type QueryParamType = { term?: string, friend?: string, page?: string };
 export const Users: React.FC = () => {
@@ -65,6 +66,10 @@ export const Users: React.FC = () => {
         dispatch(requestUsers(pageNumber, pageSize));
     };
 
+    const onStartDialog = (id: number) => {
+        history.push(`/dialogs/${id}`)
+        dispatch(startDialog(id));
+    }
 
     const followUserClick = (id: number) => {
         dispatch(followUser(id));
@@ -82,6 +87,7 @@ export const Users: React.FC = () => {
             followStatus={followed}
             fullName={name}
             status={status}
+            startDialog={onStartDialog}
             id={id}
             followingInProgress={followingInProgress}/>;
     });

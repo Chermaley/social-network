@@ -31,12 +31,12 @@ const UsersSearchForm: React.FC<UsersSearchFormPropTypes> = ({onSubmit}) => {
             >
                 {() => (
                     <Form>
-                        <Field type="text" name="term"/>
                         <Field as="select" name="friend">
                             <option value="null">All</option>
                             <option value="true">Only followed</option>
                             <option value="false">Only unfollowed</option>
                         </Field>
+                        <Field type="text" name="term"/>
                              <button className={classes.submit} type="submit"/>
                     </Form>
                 )}
