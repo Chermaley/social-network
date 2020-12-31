@@ -9,6 +9,7 @@ import check from './check.png';
 type PropsType = {
     fullName: string,
     onFollowClick: () => void,
+    startDialog: (id: number) => void,
     followStatus: boolean,
     photoUrl: string,
     status: string,
@@ -18,7 +19,7 @@ type PropsType = {
 
 const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
                                        photoUrl, status,
-                                      id: userId, followingInProgress}) => {
+                                      id: userId, followingInProgress, startDialog}) => {
     return (
         <div className={classes.user}>
             <div className={classes.user}>
@@ -31,6 +32,7 @@ const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
                     <div className={classes.user_name}>{fullName}</div><div className={classes.user_status}>{status}</div>
                 </div>
                 <div>
+                    {followStatus ? <button onClick={() => startDialog(userId)}>Send</button> : null}
                     <button className={classes.subscribe}
                             disabled={followingInProgress.some(id => id === userId)}
                             onClick={onFollowClick}>

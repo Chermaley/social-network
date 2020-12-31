@@ -1,5 +1,4 @@
 import axios from "axios";
-import {UserType} from "../types/types";
 
 
 export const axiosInstance = axios.create({
@@ -8,8 +7,8 @@ export const axiosInstance = axios.create({
     headers: {"API-KEY": "f68a4cda-2f4c-4785-816b-4190cdf2b12c"}
 });
 
-export type GetItemsType = {
-    items: Array<UserType>,
+export type GetItemsType<items> = {
+    items: Array<items>,
     totalCount: number,
     error: string | null
 }
