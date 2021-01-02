@@ -1,17 +1,16 @@
-/* eslint-disable */
+// /* eslint-disable */
 import React, {useEffect} from 'react';
 import classes from './dialogs.module.scss';
 import Dialog from './dialogItem/dialog';
 import Message from './message';
 import {useDispatch, useSelector} from "react-redux";
-import {actions, getDialogsFromApi, getMessagesFromApi, sendMessage} from "../../redux/dialogsReducer";
+import {getDialogsFromApi, getMessagesFromApi, sendMessage} from "../../redux/dialogsReducer";
 
 import DialogsFormRedux from "./dialogsForm";
 
 import {getDialogs, getMessages} from "../../redux/dialogsSelector";
 import {useParams} from 'react-router-dom';
-import {number} from "prop-types";
-import Spinner from "../common/spinner/spinner";
+
 
 export type DialogsFormValuesType = {
     newMessageText: string,
@@ -61,8 +60,8 @@ const MessagesPage: React.FC = () => {
         dispatch(sendMessage(id, message));
     };
 
-    const messages = messagesData.map(({body,id}) => {
-        return <Message  key={id} label={body}/>;
+    const messages = messagesData.map((m) => {
+        return <Message key={m.id} message={m}/>;
     });
 
     return (

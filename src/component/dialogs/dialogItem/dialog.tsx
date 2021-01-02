@@ -11,7 +11,9 @@ type PropTypes = {
 
 const Dialog: React.FC<PropTypes> = ({person, id, photos}) => {
     let path = `/dialogs/${id}`;
-
+    if (person.length > 15) {
+        person = person.slice(0,15) + '...';
+    }
     return (
         <NavLink to={path} activeClassName={classes.active} className={classes.dialog}>
             <div className={classes.photo}><img src={photos.small || userPhoto} alt=""/></div>

@@ -26,7 +26,7 @@ type PropTypes = MapStateToPropsType & MapDispatchToProps
 
 const News = React.lazy(() => import('../news'));
 const Music = React.lazy(() => import('../music'));
-
+const ChatPage = React.lazy(() => import('../nav/chat/chatPage'));
 class App extends Component<PropTypes> {
 
     catchAllUnhandledErrors = () => {
@@ -57,6 +57,7 @@ class App extends Component<PropTypes> {
                                 <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
                                 <Route path='/profile/:id?' render={() => <ProfileAPI />}/>
                                 <Route path='/dialogs/:id?' render={() => <Dialogs/>}/>
+                                <Route path='/chat' render={() => <ChatPage/>}/>
                                 <Route path='/music' component={Music}/>
                                 <Route path='/news' component={News}/>
                                 <Route path='/users' component={UsersPage}/>

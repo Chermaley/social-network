@@ -1,13 +1,17 @@
 import classes from "./message.module.scss";
 import React from "react";
-import userPhoto from '../../../assets/img/avatar.png';
-type PropTypes = {label: string}
+import {useSelector} from "react-redux";
+import {getUserId} from "../../../redux/authSelectors";
+import {MessageType} from "../../../redux/dialogsReducer";
+type PropTypes = {message: MessageType}
 
-const Message: React.FC<PropTypes> = ({label}) => {
-    // const classname = id === 1 ? classes.ownMessage : classes.message;
-    return <div >
-        <div className={classes.photo}><img src={userPhoto} alt="photo"/></div>
-        <div className={classes.text}>{label}</div>
+const Message: React.FC<PropTypes> = ({message}) => {
+    const ownId = useSelector(getUserId);
+    const classname = message.senderId === ownId ? classes.message + ' ' + classes.own : classes.message + ' ' + classes.noOwn;
+    
+    return <div className={classname}>
+        <div className={classes.senderName}><p>{message.senderName}</p></div>
+        <div className={classes.text}>{message.body}</div>
     </div>
     ;
 };

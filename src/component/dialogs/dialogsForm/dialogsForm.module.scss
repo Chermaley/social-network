@@ -1,9 +1,9 @@
 .wrapper {
+  border-bottom-right-radius: 25px;
+  border-top-right-radius: 25px;
   width: 100%;
-  position: absolute;
   display: flex;
   background-color: #fff;
-  bottom: 0;
   z-index: 1;
   padding: 10px 0;
 }

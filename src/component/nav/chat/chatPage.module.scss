@@ -1,0 +1,17 @@
+.chat{
+  height: 100%;
+  width: 100%;
+}
+
+.messages{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  overflow: auto;
+}
+
+.message{
+  display: flex;
+  align-items: center;
+}

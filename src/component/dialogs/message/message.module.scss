@@ -1,23 +1,28 @@
 .message{
-  margin-top: 10px;
+  width: 500px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
-  width: 400px;
+}
+.own{
+  flex-direction: row-reverse;
+}
+.noOwn{
   flex-direction: row;
 }
 
 .text{
-  max-width: 400px;
-  padding: 23px 31px;
-  background-color: #fefdfd;
+  word-wrap: break-word;
+  display: inline-block;
+  overflow-x: hidden;
+  font-family: Roboto;
+  font-size: 14px;
+  width: 100%;
+  padding: 8px 31px;
+  border-bottom: 1px solid black;
 }
 
-.photo {
-  display: inline;
+.senderName {
+
   margin-right: 18px;
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
 }
