@@ -48,7 +48,6 @@ const MessagesPage: React.FC = () => {
     const {id} = useParams<any>();
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         if (id) {
             dispatch(getMessagesFromApi(id));

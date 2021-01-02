@@ -33,20 +33,22 @@ export const Users: React.FC = () => {
 
     useEffect(() => {
         //query param initialize
-        const parse = queryString.parse(history.location.search.substr(1)) as  QueryParamType;
-        let actualFilter = filter;
-        let actualPage = currentPage;
+            const parse = queryString.parse(history.location.search.substr(1)) as QueryParamType;
+            let actualFilter = filter;
+            let actualPage = currentPage;
 
-        if (parse.page) actualPage = +parse.page;
-        if (parse.term) actualFilter = {...actualFilter, term: parse.term as string};
-        if (parse.friend) actualFilter = {...actualFilter, friend: parse.friend === 'null' ? null: parse.friend !== 'false'};
-
-        dispatch(actions.setCurrentPage(actualPage));
-        dispatch(actions.setFilter(actualFilter));
-        dispatch(requestUsers(actualPage, pageSize));
-        return () => {
-            dispatch(actions.setFilter({term: '', friend: null}))
-        }
+            if (parse.page) actualPage = +parse.page;
+            if (parse.term) actualFilter = {...actualFilter, term: parse.term as string};
+            if (parse.friend) actualFilter = {
+                ...actualFilter,
+                friend: parse.friend === 'null' ? null : parse.friend !== 'false'
+            };
+            dispatch(actions.setCurrentPage(actualPage));
+            dispatch(actions.setFilter(actualFilter));
+            dispatch(requestUsers(actualPage, pageSize));
+            return () => {
+                dispatch(actions.setFilter({term: '', friend: null}))
+            }
     }, []);
 
     useEffect(() => {
@@ -101,9 +103,10 @@ export const Users: React.FC = () => {
             </div>
         </div>;
     }
+
     return (
-        <div className={classes.users}>
-            <>
+        <div className={classes.container}>
+            <div className={classes.users}>
                 <div className={classes.usersContainer}>
                     {usersContent}
                 </div>
@@ -115,9 +118,9 @@ export const Users: React.FC = () => {
                         onPageChanged={onPageChanged}
                     />
                 </div>
-            </>
-
+            </div>
         </div>
+
     );
 };
 

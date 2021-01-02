@@ -5,11 +5,11 @@ import {NavLink} from "react-router-dom";
 import {FilterFormType} from "../../redux/usersReducer";
 
 type PropTypes = {
-
     onSearchSubmit: (filter: FilterFormType) => void
 }
 
 const Header: React.FC<PropTypes> = ({onSearchSubmit}) => {
+
     return (
         <header className={classes.header}>
             <HeaderContent onSearchSubmit={onSearchSubmit}/>

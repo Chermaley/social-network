@@ -3,6 +3,9 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
+  border: 1px solid black;
+  padding: 0 0 0 10px;
+
 }
 .own{
   flex-direction: row-reverse;
@@ -19,7 +22,6 @@
   font-size: 14px;
   width: 100%;
   padding: 8px 31px;
-  border-bottom: 1px solid black;
 }
 
 .senderName {

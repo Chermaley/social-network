@@ -31,8 +31,11 @@ const User:React.FC<PropsType> = ({fullName, onFollowClick, followStatus,
                 <div>
                     <div className={classes.user_name}>{fullName}</div><div className={classes.user_status}>{status}</div>
                 </div>
-                <div>
-                    {followStatus ? <button onClick={() => startDialog(userId)}>Send</button> : null}
+                <div className={classes.buttons}>
+                    {followStatus ? <button className={classes.send}
+                                            onClick={() => startDialog(userId)}>
+                        Send
+                    </button> : null}
                     <button className={classes.subscribe}
                             disabled={followingInProgress.some(id => id === userId)}
                             onClick={onFollowClick}>

@@ -2,7 +2,7 @@
   height: 100%;
   width: 880px;
   display: grid;
-  padding-top: 20px;
+  padding: 20px 0;
   margin: 0 auto;
   grid-template-columns: 300px 600px;
   grid-template-rows: 640px;
@@ -12,9 +12,9 @@
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   overflow-y: auto;
-  overflow-x: hidden;
   padding: 17px;
   background-color: #fff;
+
 }
 
 .messagesContainer{
@@ -28,4 +28,5 @@
   padding: 17px 50px;
   display: flex;
   flex-direction: column;
+
 }

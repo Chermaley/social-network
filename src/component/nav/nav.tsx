@@ -20,7 +20,6 @@ const NavBar = () => {
     }
 };
 
-
 type InfoPagePropsType = {
     onChatButtonCLick: () => void
 }

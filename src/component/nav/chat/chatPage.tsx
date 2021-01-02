@@ -34,10 +34,13 @@ const Messages: React.FC = () => {
 
     const [messages, setMessages] = useState<ChatMessageType[]>([]);
 
+    const setMessagesFromApi = (e: any) => {
+        setMessages(prevState => [...prevState, ...JSON.parse(e.data)]);
+    };
+
     useEffect(() => {
-        ws.addEventListener('message', (e) => {
-            setMessages(prevState => [...prevState, ...JSON.parse(e.data)]);
-        });
+        console.log(1);
+        ws.addEventListener('message', setMessagesFromApi);
     }, []);
 
     return (
@@ -53,7 +56,7 @@ const Messages: React.FC = () => {
 const Message: React.FC<{message: ChatMessageType}> = ({message}) => {
     return (
         <div className={classes.message}>
-            <div><img src={classes.photo} alt="userPhoto"/></div>
+            <div className={classes.photo}><img src={message.photo} alt="userPhoto"/></div>
             <div className={classes.text}>{message.message}</div>
         </div>
     );

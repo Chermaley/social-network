@@ -1,7 +1,7 @@
 .user{
-  width: 610px;
+  width: 800px;
   display: grid;
-  grid-template-columns: 100px  430px 10px;
+  grid-template-columns: 100px  630px 10px;
   gap: 20px;
   align-items: center;
   margin: 8px auto;
@@ -10,8 +10,8 @@
   }
   &_photo{
     object-fit: cover;
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
   }
   &_name{
@@ -29,7 +29,12 @@
     font-weight: 400;
   }
 }
+.buttons {
+  display: flex;
+}
+.send{
 
+}
 .subscribe{
   background-color: #fff;
   border: none;

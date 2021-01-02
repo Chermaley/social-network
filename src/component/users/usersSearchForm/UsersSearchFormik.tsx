@@ -28,6 +28,7 @@ const UsersSearchForm: React.FC<UsersSearchFormPropTypes> = ({onSubmit}) => {
                 enableReinitialize
                 initialValues={{term: filter.term, friend: String(filter.friend) as FriendFormType}}
                 onSubmit={onButtonClick}
+                placeholder={'s'}
             >
                 {() => (
                     <Form>
@@ -36,8 +37,8 @@ const UsersSearchForm: React.FC<UsersSearchFormPropTypes> = ({onSubmit}) => {
                             <option value="true">Only followed</option>
                             <option value="false">Only unfollowed</option>
                         </Field>
-                        <Field type="text" name="term"/>
-                             <button className={classes.submit} type="submit"/>
+                        <Field placeholder={'Find users'} type="text" name="term"/>
+                        <button className={classes.submit} type="submit"/>
                     </Form>
                 )}
             </Formik>

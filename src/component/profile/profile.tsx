@@ -1,7 +1,6 @@
 import React from 'react';
 import classes from './profile.module.scss';
 import ProfileInfo from "./profileInfo/profileInfo";
-import MyPosts from "./myPosts/myPosts";
 import {ProfileType} from "../../types/types";
 
 type PropTypes = {
@@ -16,10 +15,12 @@ type PropTypes = {
 const Profile: React.FC<PropTypes> = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
 
     return (
-        <div className={classes.profile}>
-            <ProfileInfo saveProfile={saveProfile} savePhoto={savePhoto} isOwner={isOwner} status={status} profile={profile} updateStatus={updateStatus}/>
-            <MyPosts/>
+        <div className={classes.wrapper}>
+            <div className={classes.profile}>
+                <ProfileInfo saveProfile={saveProfile} savePhoto={savePhoto} isOwner={isOwner} status={status} profile={profile} updateStatus={updateStatus}/>
+            </div>
         </div>
+
     );
 };
 
