@@ -1,7 +1,7 @@
 // import classes from "./profileInfo/profileInfo.module.scss";
 import React from "react";
 import {Field, Form, InjectedFormProps, reduxForm} from "redux-form";
-import {Input, Textarea} from "../../common/formsControl/formControls";
+import {Input} from "../../common/formsControl/formControls";
 import {requiredField} from "../../../utils/validators";
 import classes from "../../common/formsControl/formControls.module.scss";
 import {ProfileType} from "../../../types/types";
@@ -21,14 +21,10 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileType, PropTypes> & Prop
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className={classes.input}>
                 <div>FullName: <Field name={'fullName'} placeholder={"Your full name"} validate={[requiredField]}
                                       component={Input}/></div>
                 <div>About me: <Field name={'aboutMe'} placeholder={"About me"} component={Input}/></div>
-                <div>looking for a job: <Field name={'lookingForAJob'} component={Input} type={'checkbox'}/></div>
-                <div>My professional skills: <Field name={'lookingForAJobDescription'}
-                                                    placeholder={'Your professional skills ?'} component={Textarea}/>
-                </div>
                 {contactsInput}
                 <div>{summaryError}</div>
                 <button>Save</button>

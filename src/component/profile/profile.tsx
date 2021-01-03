@@ -1,27 +1,43 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './profile.module.scss';
 import ProfileInfo from "./profileInfo/profileInfo";
-import {ProfileType} from "../../types/types";
+import {useDispatch, useSelector} from "react-redux";
+import {useHistory, useParams} from "react-router-dom";
+import {getUserId} from "../../redux/authSelectors";
+import {getProfile, getStatus} from "../../redux/profileReducer";
 
-type PropTypes = {
-    profile: ProfileType | null,
-    status: string,
-    updateStatus: () => void,
-    isOwner: boolean,
-    savePhoto: (file: File) => void,
-    saveProfile: (formData: ProfileType) => Promise<any>
-}
+export const Profile: React.FC = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const params = useParams<any>();
+    const authUserId = useSelector(getUserId);
 
-const Profile: React.FC<PropTypes> = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
+    const refreshProfileData = () => {
+        let id: number | null = +params.id;
+        if (!id) {
+            id = authUserId;
+            if (!id) {
+                history.push("/login");
+            }
+        }
+        dispatch(getProfile(id as number));
+        dispatch(getStatus(id as number));
+    };
+
+    useEffect(() => {
+        refreshProfileData();
+    }, []);
+
+    useEffect(() => {
+        refreshProfileData();
+    }, [params.id]);
 
     return (
         <div className={classes.wrapper}>
             <div className={classes.profile}>
-                <ProfileInfo saveProfile={saveProfile} savePhoto={savePhoto} isOwner={isOwner} status={status} profile={profile} updateStatus={updateStatus}/>
+                <ProfileInfo id={params.id}/>
             </div>
         </div>
-
     );
 };
 
-export default Profile;

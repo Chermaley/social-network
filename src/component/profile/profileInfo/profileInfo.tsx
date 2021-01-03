@@ -1,24 +1,30 @@
 import classes from "./profileInfo.module.scss";
 import React, {ChangeEvent, useState} from "react";
-
 import Spinner from "../../common/spinner";
-import userPhoto from '../../../assets/img/avatar.png';
-import ProfileStatusWithHooks from "../profileStatus/profileStatusWithHooks";
 import ProfileDataForm from "./profileDataForm";
-import {ContactsType, ProfileType} from "../../../types/types";
+import {ProfileType} from "../../../types/types";
+import {ProfileLeftSide} from "./profileLeftSide";
+import {ProfileData} from "./ProfileData";
+import {savePhoto, saveProfileData, updateStatus} from "../../../redux/profileReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {getProfileSelector, getStatusSelector} from "../../../redux/profileSelectors";
 
+type ProfileInfoPropTypes = {id: number}
+const ProfileInfo: React.FC<ProfileInfoPropTypes> = ({id}) => {
+    const isOwner = !id;
+    const dispatch = useDispatch();
+    const profile = useSelector(getProfileSelector);
+    const status = useSelector(getStatusSelector);
 
-type ProfileInfoPropTypes = {
-    profile: ProfileType | null,
-    status: string,
-    updateStatus: () => void,
-    isOwner: boolean,
-    savePhoto: (photo: File) => void,
-    saveProfile: (formData: ProfileType) => Promise<any>
-}
-
-const ProfileInfo:React.FC<ProfileInfoPropTypes> = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
     const [editMode, changeEditMode] = useState(false);
+
+    const onUpdateStatus = (status: string) => {
+        dispatch(updateStatus(status));
+    };
+
+    const onSaveProfileData = (formData: ProfileType): any => {
+        return dispatch(saveProfileData(formData));
+    };
 
     const toggleEditMode = () => {
         if (!editMode) {
@@ -28,20 +34,24 @@ const ProfileInfo:React.FC<ProfileInfoPropTypes> = ({profile, status, updateStat
         }
     };
 
+
+    const onFormSubmit = (formData: ProfileType) => {
+        onSaveProfileData(formData).then(
+            () => {
+                toggleEditMode();
+            }
+        );
+    };
+
+
     const onPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         if (e.target.files?.length === 1) {
             const photo = e.target.files[0];
-            savePhoto(photo);
+            dispatch(savePhoto(photo));
         }
     };
 
-
-    const onFormSubmit = (formData: ProfileType) => {
-        saveProfile(formData).then(
-            () => {toggleEditMode();}
-        );
-    };
 
     if (!profile) {
         return <Spinner/>;
@@ -49,61 +59,27 @@ const ProfileInfo:React.FC<ProfileInfoPropTypes> = ({profile, status, updateStat
 
     const {photos} = profile;
 
-
     return (
         <>
-            <div className={classes.description}>
-                <div>
-                    <img className={classes.profilePhoto} alt={'user photo'} src={photos.large || userPhoto}/>
-                    {isOwner && <input onChange={onPhotoSelected} type="file"/>}
-                    <b>status: </b><ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
-                </div>
-                {editMode
-                    ? <ProfileDataForm initialValues={profile}
+            <div className={classes.info}>
+                <ProfileLeftSide
+                                 photos={photos}
+                                 isOwner={isOwner}
+                                 id={id}
+                                 onPhotoSelected={onPhotoSelected}/>
+                <div className={classes.rightSide}>
+                    {editMode
+                        ? <ProfileDataForm initialValues={profile}
+                                           profile={profile}
+                                           onSubmit={onFormSubmit}/>
+                        : <ProfileData isOwner={isOwner}
+                                       updateStatus={onUpdateStatus}
+                                       status={status}
                                        profile={profile}
-                                       onSubmit={onFormSubmit}/>
-                    : <ProfileData isOwner={isOwner}
-                                   profile={profile}
-                                   toggleEditMode={toggleEditMode}/>}
+                                       toggleEditMode={toggleEditMode}/>}
+                </div>
             </div>
         </>
-    );
-};
-
-type ContactPropTypes = {
-    contactTitle: string,
-    contactValue: any
-}
-
-const Contact: React.FC<ContactPropTypes> = ({contactTitle, contactValue}) => {
-    return (
-        <div>{contactTitle} : {contactValue}</div>
-    );
-};
-
-type ProfileDataPropTypes = {
-    profile: ProfileType,
-    toggleEditMode: () => void,
-    isOwner: any
-}
-
-const ProfileData: React.FC<ProfileDataPropTypes> = ({profile, toggleEditMode, isOwner}) => {
-    const {fullName, aboutMe, lookingForAJob, lookingForAJobDescription, contacts} = profile;
-    return (
-        <div className={classes.descr}>
-            data
-            {isOwner ? <button onClick={toggleEditMode}>edit</button> : null}
-            <div>FullName: {fullName}</div>
-            <div>About me: {aboutMe}</div>
-            <div>{lookingForAJob ? "looking for a job" : "lol job?"}</div>
-            <div>Skills: {lookingForAJob ? lookingForAJobDescription : null}</div>
-            <div>Contacts: {
-                Object.keys(contacts)
-                    .map((title) => {
-                return <Contact key={title} contactTitle={title} contactValue={contacts[title as keyof ContactsType]}/>;
-            })}
-            </div>
-        </div>
     );
 };
 

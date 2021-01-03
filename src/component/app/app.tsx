@@ -4,7 +4,6 @@ import {Redirect, Switch, withRouter, Route, HashRouter} from "react-router-dom"
 import './app.scss';
 import Settings from "../settings";
 import Dialogs from "../dialogs";
-import ProfileAPI from "../profile/profileAPI";
 import UsersPage from "../users";
 import HeaderAPI from "../header/headerAPI";
 import Login from "../login";
@@ -14,6 +13,7 @@ import {initializeApp} from "../../redux/appReducer";
 import Spinner from "../common/spinner";
 import store, {AppStateType} from "../../redux/reduxStore";
 import PageNotFound from '../404page';
+import {Profile} from "../profile/profile";
 
 
 
@@ -55,7 +55,7 @@ class App extends Component<PropTypes> {
                         <Suspense fallback={<Spinner/>}>
                             <Switch>
                                 <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
-                                <Route path='/profile/:id?' render={() => <ProfileAPI />}/>
+                                <Route path='/profile/:id?' render={() => <Profile />}/>
                                 <Route path='/dialogs/:id?' render={() => <Dialogs/>}/>
                                 <Route path='/chat' render={() => <ChatPage/>}/>
                                 <Route path='/music' component={Music}/>
