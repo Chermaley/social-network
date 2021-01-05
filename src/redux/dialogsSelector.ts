@@ -7,3 +7,19 @@ export const getDialogs = (state: AppStateType) => {
 export const getMessages = (state: AppStateType) => {
     return state.dialogsPage.messages;
 };
+
+export const getIsLoading = (state: AppStateType) => {
+    return state.dialogsPage.isLoading;
+};
+
+export const getIsSending = (state: AppStateType) => {
+    return state.dialogsPage.isSending;
+};
+
+export const getTotalMessagesCount = (state: AppStateType) => {
+    return state.dialogsPage.totalMessageCount;
+};
+
+export const getPageSize = (state: AppStateType) => {
+    return state.dialogsPage.pageSize;
+};
