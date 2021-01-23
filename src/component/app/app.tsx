@@ -16,8 +16,6 @@ import PageNotFound from '../404page';
 import {Profile} from "../profile/profile";
 
 
-
-
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchToProps = {
     initializeApp: () => void
@@ -26,7 +24,7 @@ type PropTypes = MapStateToPropsType & MapDispatchToProps
 
 const News = React.lazy(() => import('../news'));
 const Music = React.lazy(() => import('../music'));
-const ChatPage = React.lazy(() => import('../nav/chat/chatPage'));
+const ChatPage = React.lazy(() => import('../chat/chatPage'));
 class App extends Component<PropTypes> {
 
     catchAllUnhandledErrors = () => {
@@ -50,7 +48,7 @@ class App extends Component<PropTypes> {
             <>
             <div className='app _container'>
                     <HeaderAPI/>
-                    {this.props.isAuth ? <NavBar/> : null}
+                    <NavBar/>
                     <div className='app-wrapper-content'>
                         <Suspense fallback={<Spinner/>}>
                             <Switch>
@@ -63,13 +61,13 @@ class App extends Component<PropTypes> {
                                 <Route path='/users' component={UsersPage}/>
                                 <Route path='/settings' component={Settings}/>
                                 <Route path='/login' component={Login}/>
+                                <Route path='/chat' component={ChatPage}/>
                                 <Route path='*' component={PageNotFound}/>
                             </Switch>
                         </Suspense>
                     </div>
             </div>
-
-                </>
+            </>
         );
     }
 }

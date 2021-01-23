@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import classes from './chatPage.module.scss';
-
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
+import {useDispatch, useSelector} from "react-redux";
+import {sendMessage, startMessagesListening, stopMessagesListening} from "../../redux/chatReducer";
+import {AppStateType} from "../../redux/reduxStore";
 
 export type ChatMessageType = {
     message: string,
@@ -13,7 +14,9 @@ export type ChatMessageType = {
 
 const ChatPage: React.FC = () => {
     return (
-        <Chat/>
+        <div >
+            <Chat/>
+        </div>
     );
 };
 
@@ -22,26 +25,25 @@ export default ChatPage;
 
 const Chat: React.FC = () => {
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(startMessagesListening());
+        return () => {
+            dispatch(stopMessagesListening());
+        };
+    }, []);
+
     return (
         <div className={classes.chat}>
-            <Messages/>
-            <AddMessageForm/>
+            <Messages />
+            <AddMessageForm />
         </div>
     );
 };
 
 const Messages: React.FC = () => {
-
-    const [messages, setMessages] = useState<ChatMessageType[]>([]);
-
-    const setMessagesFromApi = (e: any) => {
-        setMessages(prevState => [...prevState, ...JSON.parse(e.data)]);
-    };
-
-    useEffect(() => {
-        console.log(1);
-        ws.addEventListener('message', setMessagesFromApi);
-    }, []);
+    const messages = useSelector((state: AppStateType) => state.chat.messages);
 
     return (
         <div className={classes.messages}>
@@ -64,11 +66,13 @@ const Message: React.FC<{message: ChatMessageType}> = ({message}) => {
 
 const AddMessageForm: React.FC = () => {
     const [message, setMessage] = useState('');
-    const sendMessage = () => {
+    const dispatch = useDispatch();
+
+    const sendMessageHandler = () => {
         if (!message) {
             return;
         }
-        ws.send(message);
+        dispatch(sendMessage(message));
         setMessage('');
     };
     return (
@@ -77,7 +81,7 @@ const AddMessageForm: React.FC = () => {
                 <textarea onChange={(e) => setMessage(e.target.value)} value={message}/>
             </div>
             <div>
-                <button onClick={sendMessage}>Send</button>
+                <button onClick={sendMessageHandler}>Send</button>
             </div>
         </div>
     );

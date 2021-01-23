@@ -1,9 +1,10 @@
 import React from "react";
 import {Form, Formik, Field} from "formik";
 import {FilterFormType} from "../../../redux/usersReducer";
-import classes from '../../header/header.module.scss';
 import {useSelector} from "react-redux";
 import {getFilter} from "../../../redux/userSelectors";
+import classes from  "./usersSearchForm.module.scss";
+
 type UsersSearchFormPropTypes ={
     onSubmit: (data: FilterFormType) => void
 }
@@ -31,13 +32,13 @@ const UsersSearchForm: React.FC<UsersSearchFormPropTypes> = ({onSubmit}) => {
                 placeholder={'s'}
             >
                 {() => (
-                    <Form>
-                        <Field as="select" name="friend">
+                    <Form className={classes.form}>
+                        <Field className={classes.drop} as="select" name="friend">
                             <option value="null">All</option>
                             <option value="true">Only followed</option>
                             <option value="false">Only unfollowed</option>
                         </Field>
-                        <Field placeholder={'Find users'} type="text" name="term"/>
+                        <Field className={classes.input} placeholder={'Find users'} type="text" name="term"/>
                         <button className={classes.submit} type="submit"/>
                     </Form>
                 )}

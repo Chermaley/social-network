@@ -25,15 +25,16 @@ html {
 
 }
 .app{
-
     margin: 0 auto;
     display: grid;
-    grid-template-rows:100px minmax(calc(100vh - 100px), 100%);
+    grid-template-rows:100px calc(100vh - 100px);
     grid-template-columns: 400px 600px;
     grid-template-areas:
     "header header header"
     "content content nav";
-
+    -webkit-box-shadow: 1px 1px 39px 1px rgba(124, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 39px 1px rgba(124, 0, 0, 0.2);
+    box-shadow: 1px 1px 39px 1px rgba(124, 0, 0, 0.2);
 }
 ._container{
     width: 1366px;

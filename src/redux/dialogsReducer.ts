@@ -15,7 +15,6 @@ export type MessageType = {
     translatedBody: any,
     viewed: boolean
 }
-
 export type DialogType = {
     hasNewMessages: boolean,
     id: number,
@@ -136,7 +135,7 @@ export const getMessagesFromApi = (id: number, page?: number, loadOldPage = fals
 export const loadPreviousMessagesPage = (id: number): ThunkType => async (dispatch, getState) => {
     dispatch(actions.incrementCurrentPage());
     const pageToLoad = getState().dialogsPage.currentPage;
-    dispatch(getMessagesFromApi(id, pageToLoad,true));
+    await dispatch(getMessagesFromApi(id, pageToLoad,true));
 };
 
 

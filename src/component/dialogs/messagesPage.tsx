@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getIsSending, getMessages, getPageSize, getTotalMessagesCount} from "../../redux/dialogsSelector";
+import {getIsLoading, getIsSending, getMessages, getPageSize, getTotalMessagesCount} from "../../redux/dialogsSelector";
 import {useParams} from "react-router-dom";
 import {
     actions,
@@ -18,6 +18,7 @@ export const MessagesPage: React.FC = () => {
     const messagesData = useSelector(getMessages);
     const isSending = useSelector(getIsSending);
     const pageSize = useSelector(getPageSize);
+    const isLoading = useSelector(getIsLoading);
     const totalCount = useSelector(getTotalMessagesCount);
     const {id} = useParams<any>();
 
@@ -74,14 +75,13 @@ export const MessagesPage: React.FC = () => {
     });
 
     if (totalCount) {
-        showMoreButton = id && (totalCount > pageSize);
+        showMoreButton = id && (totalCount > pageSize) && messages.length < totalCount;
     }
-
 
     return (
         <div className={classes.messagesContainer}>
              <div className={classes.messages}>
-                 {showMoreButton ? <button onClick={getMoreMessages}>more</button> : null}
+                 {showMoreButton ? <button disabled={isLoading} onClick={getMoreMessages}>more</button> : null}
                 {messages}
                 <div ref={fakeScrollDiv}/>
             </div>

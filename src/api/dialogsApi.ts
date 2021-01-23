@@ -1,6 +1,10 @@
 import {DialogType, MessageType} from "../redux/dialogsReducer";
 import {axiosInstance, GetItemsType, ResponseType} from "./api";
 
+type SendMessageDataResType = {
+    message: MessageType
+}
+
 export const dialogsApi = {
     getDialogs: () => {
         return axiosInstance.get<GetItemsType<DialogType>>(`/dialogs`).then(res => res.data);
@@ -12,6 +16,6 @@ export const dialogsApi = {
         return axiosInstance.get<GetItemsType<MessageType>>(`/dialogs/${id}/messages?count=${count}&page=${page}`).then(res => res.data);
     },
     sendMessage: (id: number, body: string) => {
-        return axiosInstance.post(`/dialogs/${id}/messages` , {body}).then(res => res.data);
+        return axiosInstance.post<ResponseType<SendMessageDataResType>>(`/dialogs/${id}/messages` , {body}).then(res => res.data);
     }
 }

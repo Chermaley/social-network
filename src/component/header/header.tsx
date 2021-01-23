@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './header.module.scss';
-import UsersSearchFormik from "../users/usersSearchForm/UsersSearchFormik";
+import UsersSearchFormik from "./usersSearchForm";
 import {NavLink} from "react-router-dom";
 import {FilterFormType} from "../../redux/usersReducer";
 

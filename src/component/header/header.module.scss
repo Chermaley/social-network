@@ -9,63 +9,16 @@
   display: flex;
   padding: 17.5px 45px 0 45px;
   align-items: center;
-
-  form{
-    margin: 0 60px 0 0;
-    position: relative;
-    font-family: "Roboto", serif;
-    display: flex;
-    align-items: center;
-  }
-  input{
-    font-family: "Roboto", serif;
-    padding: 10px 40px 10px 10px;
-    font-size: 12px;
-    width: 360px;
-    height: 30px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    margin-right: 3px;
-  }
-  select{
-    font-family: "Roboto", serif;
-    font-size: 12px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: none;
-    height: 30px;
-    margin-right: 5px;
-  }
-
-}
-.submit{
-  position: absolute;
-  right: 0;
-  background-color: transparent;
-  width: 20px;
-  height: 20px;
-  border: none;
-  background-image: url("magGlass.svg") ;
-  margin: 0 10px 0 0;
 }
 
 .logo{
   font-family: "Titillium Web", sans-serif;
   user-select: none;
   font-weight: 400;
-  text-align: center;
   color: #fff;
-  &_auth{
-    margin-bottom: 11px;
-    margin-right: 80px;
-    font-size: 50.8px;
-  }
-  &_noAuth{
-    margin: 0 auto;
-    font-size: 65.8px;
-  }
+  margin-bottom: 11px;
+  margin-right: 80px;
+  font-size: 50px;
 }
 
 .menu{
